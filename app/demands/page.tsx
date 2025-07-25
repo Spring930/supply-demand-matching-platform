@@ -2,6 +2,7 @@
 
 import { Metadata } from 'next';
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { MOCK_DEMANDS, DEMAND_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
 
 export default function DemandsPage() {
@@ -44,7 +45,7 @@ export default function DemandsPage() {
       case 'challenge':
         return filteredDemands
           .filter(d => d.category === 'challenge')
-          .sort((a, b) => parseInt(b.budget.split('-')[1]) - parseInt(a.budget.split('-')[1]));
+          .sort((a, b) => b.budget - a.budget);
       default:
         return filteredDemands
           .filter(d => d.category === 'featured')
@@ -253,7 +254,7 @@ export default function DemandsPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
                         <span className="text-gray-500">预算范围:</span>
-                        <div className="font-medium text-green-600">{demand.budget}</div>
+                        <div className="font-medium text-green-600">{demand.budget}万元</div>
                       </div>
                       <div>
                         <span className="text-gray-500">截止时间:</span>
@@ -285,9 +286,11 @@ export default function DemandsPage() {
                     </div>
                     
                     <div>
-                      <button className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm">
-                        了解详情
-                      </button>
+                      <Link href={`/demands/${demand.id}`}>
+                        <button className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm">
+                          了解详情
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
