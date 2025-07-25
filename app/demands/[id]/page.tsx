@@ -34,12 +34,12 @@ export default function DemandDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 蓝色头部区域 */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16 px-4">
+      {/* 绿色头部区域 */}
+      <div className="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-16 px-4">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">{demand.title}</h1>
           <p className="text-xl mb-8">{demand.organization}</p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-custom hover:bg-gray-100 transition-colors font-medium border-2 border-white">
+          <button className="bg-white text-accent-600 px-8 py-3 rounded-custom hover:bg-gray-100 transition-colors font-medium border-2 border-white">
             智能匹配
           </button>
         </div>
@@ -51,7 +51,7 @@ export default function DemandDetailPage() {
         <div className="mb-8">
           <button 
             onClick={() => router.back()}
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+            className="flex items-center text-accent-600 hover:text-accent-800 transition-colors"
           >
             <span className="mr-2">←</span>
             返回需求列表
@@ -62,27 +62,27 @@ export default function DemandDetailPage() {
         <div className="mb-12">
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-500 transform rotate-45 mr-3"></div>
+              <div className="w-4 h-4 bg-accent-500 transform rotate-45 mr-3"></div>
               <h2 className="text-2xl font-bold text-title">需求概述</h2>
-              <div className="w-4 h-4 bg-blue-500 transform rotate-45 ml-3"></div>
+              <div className="w-4 h-4 bg-accent-500 transform rotate-45 ml-3"></div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 需求单位 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">🏢</span>
-                <span className="font-medium text-blue-800">需求单位</span>
+                <span className="text-accent-600 mr-2">🏢</span>
+                <span className="font-medium text-accent-800">需求单位</span>
               </div>
               <div className="text-gray-800 font-medium">{demand.organization}</div>
             </div>
 
             {/* 产业领域 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">🏭</span>
-                <span className="font-medium text-blue-800">产业领域</span>
+                <span className="text-accent-600 mr-2">🏭</span>
+                <span className="font-medium text-accent-800">产业领域</span>
               </div>
               <div className="text-gray-800 font-medium">
                 {industry?.icon} {industry?.label}
@@ -90,19 +90,19 @@ export default function DemandDetailPage() {
             </div>
 
             {/* 入库日期 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">📅</span>
-                <span className="font-medium text-blue-800">入库日期</span>
+                <span className="text-accent-600 mr-2">📅</span>
+                <span className="font-medium text-accent-800">入库日期</span>
               </div>
               <div className="text-gray-800 font-medium">{demand.publishDate}</div>
             </div>
 
             {/* 拟交易价格 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">💰</span>
-                <span className="font-medium text-blue-800">拟交易价格</span>
+                <span className="text-accent-600 mr-2">💰</span>
+                <span className="font-medium text-accent-800">拟交易价格</span>
               </div>
               <div className="text-gray-800 font-medium">
                 {demand.budget ? `${demand.budget}万元` : '面议'}
@@ -110,19 +110,19 @@ export default function DemandDetailPage() {
             </div>
 
             {/* 需求时效 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">⏰</span>
-                <span className="font-medium text-blue-800">需求时效</span>
+                <span className="text-accent-600 mr-2">⏰</span>
+                <span className="font-medium text-accent-800">需求时效</span>
               </div>
               <div className="text-gray-800 font-medium">长期</div>
             </div>
 
             {/* 联系人 */}
-            <div className="bg-blue-50 rounded-custom p-4">
+            <div className="bg-accent-50 rounded-custom p-4">
               <div className="flex items-center mb-2">
-                <span className="text-blue-600 mr-2">👤</span>
-                <span className="font-medium text-blue-800">联系人</span>
+                <span className="text-accent-600 mr-2">👤</span>
+                <span className="font-medium text-accent-800">联系人</span>
               </div>
               <div className="text-gray-800 font-medium">
                 {demand.contact || '暂不公开'}
@@ -135,9 +135,9 @@ export default function DemandDetailPage() {
         <div className="mb-12">
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-500 transform rotate-45 mr-3"></div>
+              <div className="w-4 h-4 bg-accent-500 transform rotate-45 mr-3"></div>
               <h2 className="text-2xl font-bold text-title">需求详情</h2>
-              <div className="w-4 h-4 bg-blue-500 transform rotate-45 ml-3"></div>
+              <div className="w-4 h-4 bg-accent-500 transform rotate-45 ml-3"></div>
             </div>
           </div>
 
@@ -154,7 +154,7 @@ export default function DemandDetailPage() {
                   {demand.tags.map(tag => (
                     <span 
                       key={tag} 
-                      className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-custom"
+                      className="px-3 py-1 bg-accent-100 text-accent-800 text-sm rounded-custom"
                     >
                       #{tag}
                     </span>
@@ -189,17 +189,17 @@ export default function DemandDetailPage() {
       </div>
 
       {/* 底部智能匹配区域 */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-16">
+      <div className="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-between max-w-4xl mx-auto">
             <div className="text-left">
               <h3 className="text-3xl font-bold mb-4">智能匹配</h3>
-              <p className="text-xl text-blue-100">
+              <p className="text-xl text-accent-100">
                 分析当前企业需求的产业领域方向，从科技成果中匹配最相关的内容，生成可视化的需求分析报告
               </p>
             </div>
             <div className="flex-shrink-0 ml-8">
-              <button className="bg-white text-blue-600 px-8 py-4 rounded-custom hover:bg-gray-100 transition-colors font-medium text-lg">
+              <button className="bg-white text-accent-600 px-8 py-4 rounded-custom hover:bg-gray-100 transition-colors font-medium text-lg">
                 开始匹配
               </button>
             </div>
