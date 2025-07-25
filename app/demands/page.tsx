@@ -34,7 +34,7 @@ export default function DemandsPage() {
         <div className="bg-white rounded-custom shadow-md p-6">
           <h3 className="text-lg font-semibold text-title mb-2">揭榜挂帅</h3>
           <p className="text-gray-600 mb-4">参与重大技术挑战，展示您的实力</p>
-          <button className="bg-secondary-500 text-white px-4 py-2 rounded-custom hover:bg-secondary-600 transition-colors">
+          <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors">
             查看榜单
           </button>
         </div>
@@ -43,7 +43,7 @@ export default function DemandsPage() {
           <h3 className="text-lg font-semibold text-title mb-2">浏览大家的需求</h3>
           <p className="text-gray-600 mb-4">获取最新动态，关注感兴趣的需求</p>
           <Link href="/demands/browse">
-            <button className="bg-primary-500 text-white px-4 py-2 rounded-custom hover:bg-primary-600 transition-colors">
+            <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors">
               立即浏览
             </button>
           </Link>
