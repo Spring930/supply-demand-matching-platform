@@ -4,6 +4,7 @@
 
 import { Metadata } from 'next';
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
 
 // export const metadata: Metadata = {
@@ -12,6 +13,7 @@ import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPE
 // };
 
 export default function AchievementsPage() {
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<'featured' | 'hot'>('featured');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
@@ -73,7 +75,10 @@ export default function AchievementsPage() {
             <h1 className="text-3xl font-bold text-title mb-4">成果板块</h1>
             <p className="text-gray-600">发现优秀成果，探索创新应用场景</p>
           </div>
-          <button className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors flex items-center space-x-2 shadow-md">
+          <button 
+            onClick={() => router.push('/achievements/publish')}
+            className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors flex items-center space-x-2 shadow-md"
+          >
             <span className="text-xl">📝</span>
             <span className="font-medium">发布成果</span>
           </button>
@@ -269,7 +274,10 @@ export default function AchievementsPage() {
                     >
                       通俗解释
                     </button>
-                    <button className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm">
+                    <button 
+                      onClick={() => router.push(`/achievements/${achievement.id}`)}
+                      className="px-4 py-2 bg-secondary-500 text-white rounded-custom hover:bg-secondary-600 transition-colors text-sm"
+                    >
                       了解详情
                     </button>
                   </div>
@@ -282,7 +290,10 @@ export default function AchievementsPage() {
 
       {/* 发布成果按钮 */}
       <div className="fixed bottom-8 right-8">
-        <button className="w-14 h-14 bg-accent-500 text-white rounded-full shadow-lg hover:bg-accent-600 transition-colors flex items-center justify-center">
+        <button 
+          onClick={() => router.push('/achievements/publish')}
+          className="w-14 h-14 bg-accent-500 text-white rounded-full shadow-lg hover:bg-accent-600 transition-colors flex items-center justify-center"
+        >
           <span className="text-2xl">+</span>
         </button>
       </div>

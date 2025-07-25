@@ -55,11 +55,11 @@ export default function ProfilePage() {
           {/* 数据看板 */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="bg-white rounded-custom shadow-md p-6 text-center">
-              <div className="text-3xl font-bold text-accent-500 mb-2">12</div>
+              <div className="text-3xl font-bold text-title mb-2">12</div>
               <div className="text-gray-600">发布需求</div>
             </div>
             <div className="bg-white rounded-custom shadow-md p-6 text-center">
-              <div className="text-3xl font-bold text-secondary-500 mb-2">8</div>
+              <div className="text-3xl font-bold text-title mb-2">8</div>
               <div className="text-gray-600">发布成果</div>
             </div>
             <div className="bg-white rounded-custom shadow-md p-6 text-center">
@@ -67,7 +67,7 @@ export default function ProfilePage() {
               <div className="text-gray-600">匹配成功</div>
             </div>
             <div className="bg-white rounded-custom shadow-md p-6 text-center">
-              <div className="text-3xl font-bold text-primary-500 mb-2">3</div>
+              <div className="text-3xl font-bold text-title mb-2">3</div>
               <div className="text-gray-600">进行中项目</div>
             </div>
           </div>

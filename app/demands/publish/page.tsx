@@ -106,13 +106,16 @@ export default function PublishDemandPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* 绿色头部区域 */}
+      <div className="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-12 px-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-4">发布需求</h1>
+          <p className="text-lg">详细描述您的需求，让更多人为您提供解决方案</p>
+        </div>
+      </div>
+
       {/* 主要内容区域 */}
       <div className="container mx-auto px-4 py-8">
-        {/* 页面标题 */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-title mb-4">发布需求</h1>
-          <p className="text-gray-600">详细描述您的需求，让更多人为您提供解决方案</p>
-        </div>
         {/* 返回按钮 */}
         <div className="mb-8">
           <button 

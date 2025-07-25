@@ -85,6 +85,26 @@ export const MOCK_ACHIEVEMENTS = [
     tags: ['深度学习', '图像识别', 'AI', '计算机视觉'],
     status: 'published',
     isHot: true,
+    // 详情页新增字段
+    researchUnit: '清华大学计算机科学与技术系',
+    maturityLevel: '技术成熟度较高，可产业化应用',
+    contactPerson: '张教授 - zhang@tsinghua.edu.cn',
+    fullDescription: `本项目基于深度学习的智能图像识别系统，采用最新的卷积神经网络架构，结合注意力机制和数据增强技术，实现了高精度的图像识别功能。
+
+系统的核心技术包括：
+1. 基于ResNet和Transformer的混合架构
+2. 自适应注意力机制，提高识别精度
+3. 多尺度特征融合技术
+4. 数据增强和对抗训练技术
+
+技术指标：
+- 识别准确率：99.5%
+- 处理速度：每秒1000张图片
+- 支持目标类别：超过10,000种
+- 系统稳定性：99.9%`,
+    applicationScenarios: '智能安防监控、医疗影像诊断、工业质量检测、自动驾驶视觉感知、智能零售、农业病虫害识别',
+    achievements: ['获得国家发明专利3项', '发表SCI论文8篇', '获得教育部科技进步一等奖', '技术转化收益超过500万元'],
+    cooperationMode: '技术转让、合作开发、专利授权',
   },
   {
     id: '2',
@@ -104,6 +124,26 @@ export const MOCK_ACHIEVEMENTS = [
     tags: ['锂电池', '新材料', '能源', '纳米技术'],
     status: 'published',
     isHot: true,
+    // 详情页新增字段
+    researchUnit: '中科院上海硅酸盐研究所',
+    maturityLevel: '中试阶段，已完成产业化验证',
+    contactPerson: '李研究员 - li@siccas.ac.cn',
+    fullDescription: `新型锂电池正极材料制备工艺采用纳米材料改性和表面包覆技术，开发出具有高容量、长寿命、高安全性的锂电池正极材料。
+
+技术特点：
+1. 采用纳米级材料改性，提高电化学性能
+2. 表面包覆技术，增强材料稳定性
+3. 优化的制备工艺，降低生产成本
+4. 环保制备过程，符合绿色发展要求
+
+性能指标：
+- 电池容量提升：30%
+- 循环寿命延长：50%
+- 安全性能：通过所有国际标准测试
+- 成本降低：15%`,
+    applicationScenarios: '电动汽车动力电池、储能系统、消费电子产品、航空航天设备、工业设备供电',
+    achievements: ['获得发明专利5项', '产业化合作协议3项', '获得中科院科技进步二等奖', '技术许可费收入200万元'],
+    cooperationMode: '技术许可、联合开发、股权投资',
   },
   {
     id: '3',
@@ -123,6 +163,26 @@ export const MOCK_ACHIEVEMENTS = [
     tags: ['物联网', '智能农业', '传感器', '大数据'],
     status: 'published',
     isHot: false,
+    // 详情页新增字段
+    researchUnit: '江苏农业科技有限公司',
+    maturityLevel: '技术成熟，已在多个地区应用',
+    contactPerson: '王工程师 - wang@jsagri.com',
+    fullDescription: `智能农业物联网监测系统基于物联网技术的农业监测系统，通过传感器网络实时采集温度、湿度、土壤养分等参数。
+
+系统组成：
+1. 传感器网络：温度、湿度、土壤养分、pH值等
+2. 数据采集系统：高精度、高可靠数据采集
+3. 智能分析平台：基于大数据的决策支持
+4. 移动应用：实时监控和远程控制
+
+技术优势：
+- 实时监测精度：±2%
+- 数据传输距离：可达5公里
+- 电池寿命：超过1年
+- 耐候性能：-40°C至80°C`,
+    applicationScenarios: '精准农业生产、温室管理、作物监测、灌溉控制、农业保险、农产品质量追溯',
+    achievements: ['获得实用新型专刐6项', '在江苏、5个地区应用', '获得江苏省科技进步三等奖', '市场销售额达300万元'],
+    cooperationMode: '产品销售、技术服务、合作运营',
   },
   {
     id: '4',
@@ -142,6 +202,26 @@ export const MOCK_ACHIEVEMENTS = [
     tags: ['CRISPR', '基因编辑', '癌症', '生物技术'],
     status: 'published',
     isHot: true,
+    // 详情页新增字段
+    researchUnit: '中山大学生命科学学院',
+    maturityLevel: '实验室阶段，已完成动物实验',
+    contactPerson: '陈教授 - chen@sysu.edu.cn',
+    fullDescription: `基因编辑技术在癌症治疗中的应用研究利用CRISPR-Cas9基因编辑技术，开发出针对特定癌症类型的精准治疗方案。
+
+研究内容：
+1. CRISPR-Cas9系统的优化和改进
+2. 癌症细胞特异性目标的识别和验证
+3. 基因编辑的安全性评估和控制
+4. 临床前的效果评估和优化
+
+技术特点：
+- 高精度目标识别：误切率<0.1%
+- 高效的编辑效率：>80%
+- 低毒印反应：其他细胞存活率>95%
+- 稳定的治疗效果：动物实验效果显著`,
+    applicationScenarios: '癌症精准治疗、基因治疗、精准医学、生物制药、医学研究、诊断试剂开发',
+    achievements: ['发表Nature子刊论文2篇', '申请国际发明专利3项', '获得国家自然科学基金支持', '与制药企业达成合作意向'],
+    cooperationMode: '联合研发、技术转让、临床试验合作',
   },
   {
     id: '5',
@@ -161,6 +241,28 @@ export const MOCK_ACHIEVEMENTS = [
     tags: ['MES系统', '智能制造', '数字化', '工业4.0'],
     status: 'published',
     isHot: false,
+    // 详情页新增字段
+    researchUnit: '杭州智造科技有限公司',
+    maturityLevel: '技术成熟，已在多家企业应用',
+    contactPerson: '刘总工程师 - liu@hzsmartmfg.com',
+    fullDescription: `智能制造执行系统软件面向智能制造的MES系统，集成了生产计划、质量管理、设备维护等功能模块。
+
+系统功能模块：
+1. 生产计划与调度管理
+2. 质量管理与追溯系统
+3. 设备维护与状态监控
+4. 工艺参数管理与优化
+5. 数据采集与分析系统
+6. 报表与可视化看板
+
+技术特点：
+- 提升制造效率：40%
+- 降低生产成本：25%
+- 实时数据采集率：>95%
+- 系统可用性：>99%`,
+    applicationScenarios: '智能制造生产线、生产计划管理、质量控制系统、设备监控、工业大数据分析',
+    achievements: ['获得软件著作权登记10项', '在浙江、50家企业应用', '获得浙江省科技进步一等奖', '市场销售额达2000万元'],
+    cooperationMode: '软件销售、定制开发、系统集成',
   },
 ] as const;
 
