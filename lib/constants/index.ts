@@ -184,7 +184,7 @@ export const MOCK_DEMANDS = [
     tags: ['太阳能', '封装技术', '新能源', '清洁技术'],
     status: 'urgent',
     category: 'featured',
-    solutionCount: 12,
+    contact: '邮箱: contact@suntech.com',
   },
   {
     id: '2',
@@ -204,7 +204,7 @@ export const MOCK_DEMANDS = [
     tags: ['智能制造', 'MES系统', '数字化改造', '工业4.0'],
     status: 'hot',
     category: 'hot',
-    solutionCount: 24,
+    contact: '电话: 021-88888888',
   },
   {
     id: '3',
@@ -224,7 +224,7 @@ export const MOCK_DEMANDS = [
     tags: ['抗癌药物', '高通量筛选', '精准医疗', '新药研发'],
     status: 'challenge',
     category: 'challenge',
-    solutionCount: 8,
+    contact: '微信: biomedical2024',
   },
   {
     id: '4',
@@ -244,7 +244,7 @@ export const MOCK_DEMANDS = [
     tags: ['AI诊断', '医学影像', '深度学习', '智能医疗'],
     status: 'featured',
     category: 'featured',
-    solutionCount: 18,
+    contact: '手机: 138-0000-1234',
   },
   {
     id: '5',
@@ -264,7 +264,7 @@ export const MOCK_DEMANDS = [
     tags: ['碳纤维', '复合材料', '轻量化', '航空航天'],
     status: 'challenge',
     category: 'challenge',
-    solutionCount: 6,
+    contact: 'QQ: 123456789',
   },
 ] as const;
 

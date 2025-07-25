@@ -260,8 +260,8 @@ export default function DemandsPage() {
                         <div className="font-medium text-orange-600">{demand.deadline}</div>
                       </div>
                       <div>
-                        <span className="text-gray-500">方案数量:</span>
-                        <div className="font-medium text-blue-600">{demand.solutionCount}个</div>
+                        <span className="text-gray-500">联系方式:</span>
+                        <div className="font-medium text-blue-600">{demand.contact}</div>
                       </div>
                       <div>
                         <span className="text-gray-500">所属行业:</span>
@@ -284,11 +284,8 @@ export default function DemandsPage() {
                       </span>
                     </div>
                     
-                    <div className="flex space-x-2">
+                    <div>
                       <button className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm">
-                        提交方案
-                      </button>
-                      <button className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm">
                         了解详情
                       </button>
                     </div>
