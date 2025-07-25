@@ -77,10 +77,12 @@ export default function DemandsPage() {
             <h1 className="text-3xl font-bold text-title mb-4">需求板块</h1>
             <p className="text-gray-600">发布您的需求，寻找您的机会</p>
           </div>
-          <button className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors flex items-center space-x-2 shadow-md">
-            <span className="text-xl">🚀</span>
-            <span className="font-medium">发布需求</span>
-          </button>
+          <Link href="/demands/publish">
+            <button className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors flex items-center space-x-2 shadow-md">
+              <span className="text-xl">🚀</span>
+              <span className="font-medium">发布需求</span>
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -302,9 +304,11 @@ export default function DemandsPage() {
 
       {/* 发布需求按钮 */}
       <div className="fixed bottom-8 right-8">
-        <button className="w-14 h-14 bg-accent-500 text-white rounded-full shadow-lg hover:bg-accent-600 transition-colors flex items-center justify-center">
-          <span className="text-2xl">+</span>
-        </button>
+        <Link href="/demands/publish">
+          <button className="w-14 h-14 bg-accent-500 text-white rounded-full shadow-lg hover:bg-accent-600 transition-colors flex items-center justify-center">
+            <span className="text-2xl">+</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
