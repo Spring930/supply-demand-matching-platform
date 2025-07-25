@@ -4,6 +4,7 @@
 
 import { Metadata } from 'next';
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
 
 // export const metadata: Metadata = {
@@ -12,6 +13,7 @@ import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPE
 // };
 
 export default function AchievementsPage() {
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<'featured' | 'hot'>('featured');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
@@ -269,7 +271,10 @@ export default function AchievementsPage() {
                     >
                       通俗解释
                     </button>
-                    <button className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm">
+                    <button 
+                      onClick={() => router.push(`/achievements/${achievement.id}`)}
+                      className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm"
+                    >
                       了解详情
                     </button>
                   </div>
