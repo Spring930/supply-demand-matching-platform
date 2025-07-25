@@ -226,18 +226,7 @@ export default function AchievementsPage() {
 
                 {/* 描述内容 */}
                 <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">成果描述</span>
-                    <button
-                      onClick={() => toggleDescription(achievement.id)}
-                      className="text-sm text-accent-600 hover:text-accent-700 flex items-center"
-                    >
-                      <span className="mr-1">
-                        {showPlainDescription[achievement.id] ? '🔬' : '💬'}
-                      </span>
-                      {showPlainDescription[achievement.id] ? '学术描述' : '通俗解释'}
-                    </button>
-                  </div>
+                  <span className="text-sm font-medium text-gray-700 block mb-2">成果描述</span>
                   <p className="text-gray-700 leading-relaxed">
                     {showPlainDescription[achievement.id] 
                       ? achievement.plainDescription 
@@ -279,8 +268,11 @@ export default function AchievementsPage() {
                   </div>
                   
                   <div className="flex space-x-2">
-                    <button className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm">
-                      智能匹配
+                    <button 
+                      onClick={() => toggleDescription(achievement.id)}
+                      className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm"
+                    >
+                      通俗解释
                     </button>
                     <button className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm">
                       了解详情
