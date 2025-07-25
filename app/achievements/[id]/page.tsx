@@ -42,7 +42,15 @@ export default function AchievementDetailPage() {
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">{achievement.title}</h1>
           <p className="text-xl mb-8">{achievement.researchUnit}</p>
-          <button className="bg-white text-accent-600 px-8 py-3 rounded-custom hover:bg-gray-100 transition-colors font-medium border-2 border-white">
+          <button 
+            onClick={() => {
+              const smartMatchingSection = document.querySelector('[data-smart-matching]');
+              if (smartMatchingSection) {
+                smartMatchingSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="bg-white text-accent-600 px-8 py-3 rounded-custom hover:bg-gray-100 transition-colors font-medium border-2 border-white"
+          >
             智能匹配
           </button>
         </div>
@@ -62,63 +70,63 @@ export default function AchievementDetailPage() {
         </div>
 
         {/* 成果概述 */}
-        <div className="mb-12">
-          <div className="flex items-center justify-center mb-8">
+        <div className="mb-16">
+          <div className="flex items-center justify-center mb-10">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-accent-500 transform rotate-45 mr-3"></div>
-              <h2 className="text-2xl font-bold text-title">成果概述</h2>
-              <div className="w-4 h-4 bg-accent-500 transform rotate-45 ml-3"></div>
+              <div className="w-3 h-3 bg-accent-500 transform rotate-45 mr-4"></div>
+              <h2 className="text-3xl font-bold text-title tracking-wide">成果概述</h2>
+              <div className="w-3 h-3 bg-accent-500 transform rotate-45 ml-4"></div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* 研发单位 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">🏢</span>
-                <span className="font-medium text-accent-800">研发单位</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">🏢</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">研发单位</span>
               </div>
-              <div className="text-gray-800 font-medium">{achievement.researchUnit}</div>
+              <div className="text-gray-800 font-medium text-lg leading-relaxed">{achievement.researchUnit}</div>
             </div>
 
             {/* 产业领域 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">🏭</span>
-                <span className="font-medium text-accent-800">产业领域</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">🏭</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">产业领域</span>
               </div>
-              <div className="text-gray-800 font-medium">
+              <div className="text-gray-800 font-medium text-lg leading-relaxed">
                 {industry?.icon} {industry?.label}
               </div>
             </div>
 
             {/* 入库日期 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">📅</span>
-                <span className="font-medium text-accent-800">入库日期</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">📅</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">入库日期</span>
               </div>
-              <div className="text-gray-800 font-medium">{achievement.publishDate}</div>
+              <div className="text-gray-800 font-medium text-lg leading-relaxed">{achievement.publishDate}</div>
             </div>
 
             {/* 技术成熟度 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">⚡</span>
-                <span className="font-medium text-accent-800">技术成熟度</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">⚡</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">技术成熟度</span>
               </div>
-              <div className="text-gray-800 font-medium">{achievement.maturityLevel}</div>
+              <div className="text-gray-800 font-medium text-lg leading-relaxed">{achievement.maturityLevel}</div>
             </div>
 
             {/* 标签 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">🏷️</span>
-                <span className="font-medium text-accent-800">标签</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">🏷️</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">标签</span>
               </div>
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-2">
                 {achievement.tags.map(tag => (
-                  <span key={tag} className="px-2 py-1 bg-accent-100 text-accent-700 text-xs rounded-custom">
+                  <span key={tag} className="px-3 py-1 bg-accent-200 text-accent-700 text-sm rounded-full font-medium hover:bg-accent-300 transition-colors">
                     #{tag}
                   </span>
                 ))}
@@ -126,88 +134,111 @@ export default function AchievementDetailPage() {
             </div>
 
             {/* 联系人 */}
-            <div className="bg-accent-50 rounded-custom p-4">
-              <div className="flex items-center mb-2">
-                <span className="text-accent-600 mr-2">👤</span>
-                <span className="font-medium text-accent-800">联系人</span>
+            <div className="bg-gradient-to-br from-accent-50 to-accent-100 rounded-custom p-6 border border-accent-200 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-center mb-3">
+                <span className="text-accent-600 mr-3 text-xl">👤</span>
+                <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">联系人</span>
               </div>
-              <div className="text-gray-800 font-medium">{achievement.contactPerson}</div>
+              <div className="text-gray-800 font-medium text-lg leading-relaxed">{achievement.contactPerson}</div>
             </div>
           </div>
         </div>
 
         {/* 成果详情 */}
-        <div className="mb-12">
-          <div className="flex items-center justify-center mb-8">
+        <div className="mb-16">
+          <div className="flex items-center justify-center mb-10">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-accent-500 transform rotate-45 mr-3"></div>
-              <h2 className="text-2xl font-bold text-title">成果详情</h2>
-              <div className="w-4 h-4 bg-accent-500 transform rotate-45 ml-3"></div>
+              <div className="w-3 h-3 bg-accent-500 transform rotate-45 mr-4"></div>
+              <h2 className="text-3xl font-bold text-title tracking-wide">成果详情</h2>
+              <div className="w-3 h-3 bg-accent-500 transform rotate-45 ml-4"></div>
             </div>
           </div>
 
-          <div className="bg-white rounded-custom shadow-md p-8">
+          <div className="bg-white rounded-custom shadow-lg p-10 border border-gray-100">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <div className="whitespace-pre-line">
+              <div className="whitespace-pre-line text-base leading-8">
                 {achievement.fullDescription}
               </div>
             </div>
 
             {/* 应用场景 */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-title mb-4">应用场景</h3>
-              <p className="text-gray-700 leading-relaxed">
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <h3 className="text-xl font-semibold text-title mb-6 flex items-center">
+                <span className="text-accent-500 mr-2">📊</span>
+                应用场景
+              </h3>
+              <p className="text-gray-700 leading-8 text-base">
                 {achievement.applicationScenarios}
               </p>
             </div>
 
             {/* 主要成果 */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-title mb-4">主要成果</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <h3 className="text-xl font-semibold text-title mb-6 flex items-center">
+                <span className="text-accent-500 mr-2">🏆</span>
+                主要成果
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {achievement.achievements.map((item, index) => (
-                  <div key={index} className="flex items-center">
-                    <span className="text-accent-500 mr-2">✓</span>
-                    <span className="text-gray-700">{item}</span>
+                  <div key={index} className="flex items-start p-4 bg-accent-50 rounded-custom">
+                    <span className="text-accent-500 mr-3 text-lg mt-1">✓</span>
+                    <span className="text-gray-700 text-base leading-relaxed">{item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* 合作方式 */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-title mb-4">合作方式</h3>
-              <p className="text-gray-700 leading-relaxed">
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <h3 className="text-xl font-semibold text-title mb-6 flex items-center">
+                <span className="text-accent-500 mr-2">🤝</span>
+                合作方式
+              </h3>
+              <p className="text-gray-700 leading-8 text-base">
                 {achievement.cooperationMode}
               </p>
             </div>
 
             {/* 成果统计 */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <div className="flex items-center space-x-6 text-sm text-gray-500">
-                <span className="flex items-center">
-                  <span className="text-accent-500 mr-1">👁️</span>
-                  浏览量: {achievement.viewCount}
-                </span>
-                <span className="flex items-center">
-                  <span className="text-accent-500 mr-1">➕</span>
-                  关注数: {achievement.followCount}
-                </span>
-                <span className="flex items-center">
-                  <span className="text-accent-500 mr-1">📍</span>
-                  地区: {region?.label}
-                </span>
-                <span className="flex items-center">
-                  <span className="text-accent-500 mr-1">{subject?.icon}</span>
-                  主体: {subject?.label}
-                </span>
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center justify-center p-4 bg-accent-50 rounded-custom">
+                  <span className="text-accent-500 mr-2 text-lg">👁️</span>
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-title">{achievement.viewCount}</div>
+                    <div className="text-sm text-gray-500">浏览量</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center p-4 bg-accent-50 rounded-custom">
+                  <span className="text-accent-500 mr-2 text-lg">➕</span>
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-title">{achievement.followCount}</div>
+                    <div className="text-sm text-gray-500">关注数</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center p-4 bg-accent-50 rounded-custom">
+                  <span className="text-accent-500 mr-2 text-lg">📍</span>
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-title">{region?.label}</div>
+                    <div className="text-sm text-gray-500">地区</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center p-4 bg-accent-50 rounded-custom">
+                  <span className="text-accent-500 mr-2 text-lg">{subject?.icon}</span>
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-title">{subject?.label}</div>
+                    <div className="text-sm text-gray-500">主体</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* 智能匹配功能 */}
-        <SmartMatching />
+        <div data-smart-matching>
+          <SmartMatching />
+        </div>
       </div>
     </div>
   );

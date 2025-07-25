@@ -276,7 +276,7 @@ export default function AchievementsPage() {
                     </button>
                     <button 
                       onClick={() => router.push(`/achievements/${achievement.id}`)}
-                      className="px-4 py-2 bg-primary-500 text-title rounded-custom hover:bg-primary-600 transition-colors text-sm"
+                      className="px-4 py-2 bg-secondary-500 text-white rounded-custom hover:bg-secondary-600 transition-colors text-sm"
                     >
                       了解详情
                     </button>
