@@ -1,0 +1,8 @@
+# ShareSpace - Content Sharing Platform Environment Configuration
+# This file configures the development environment for the Next.js sharing application
+
+# Command to install or update dependencies, will execute each time a new thread created to ensure dependencies up-to-date
+dependency_command: npm install
+
+# Command to run when "Run" button clicked
+run_command: npm run dev
