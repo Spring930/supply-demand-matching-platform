@@ -38,7 +38,71 @@ export const USER_ROLES = [
   { value: 'expert', label: '专家用户' },
 ] as const;
 
-// 服务中心模块
+// 人才专区子模块
+export const TALENT_MODULES = [
+  {
+    id: 'tech-broker',
+    name: '技术经纪人专区',
+    description: '专业技术经纪人，为您提供技术转移和商业化服务',
+    icon: '💼',
+    path: '/services/talent/tech-broker',
+    buttonText: '进入专区',
+  },
+  {
+    id: 'innovation-coordinator',
+    name: '创新协同员专区',
+    description: '协同创新专家，协助产学研合作和跨领域协同',
+    icon: '🤝',
+    path: '/services/talent/innovation-coordinator',
+    buttonText: '进入专区',
+  },
+  {
+    id: 'ecosystem-designer',
+    name: '生态设计师专区',
+    description: '专业生态设计师，构建创新生态系统和平台',
+    icon: '🎨',
+    path: '/services/talent/ecosystem-designer',
+    buttonText: '进入专区',
+  },
+] as const;
+
+// 市场资源模块
+export const MARKET_RESOURCE_MODULES = [
+  {
+    id: 'validation',
+    name: '概念验证',
+    description: '通过AI智能匹配验证您的方案在市场上是否成立',
+    icon: '🧪',
+    path: '/services/validation',
+    buttonText: '开始验证',
+  },
+  {
+    id: 'cooperation',
+    name: '校企合作',
+    description: '提供企业合作对接、咨询与学校合作服务',
+    icon: '🎓',
+    path: '/services/cooperation',
+    buttonText: '寻找合作',
+  },
+  {
+    id: 'funding',
+    name: '金融融资',
+    description: '根据价格、水平、投资倾向提供贷款担保等',
+    icon: '💰',
+    path: '/services/funding',
+    buttonText: '获取融资',
+  },
+  {
+    id: 'incubation',
+    name: '项目孵化',
+    description: '提供投资机构与投资人的推荐与对接',
+    icon: '🚀',
+    path: '/services/incubation',
+    buttonText: '申请孵化',
+  },
+] as const;
+
+// 服务中心模块（保留原有结构用于兼容性）
 export const SERVICE_MODULES = [
   {
     id: 'talent',
