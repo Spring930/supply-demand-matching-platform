@@ -12,7 +12,7 @@ import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPE
 // };
 
 export default function AchievementsPage() {
-  const [selectedTab, setSelectedTab] = useState<'featured' | 'recommended' | 'hot'>('featured');
+  const [selectedTab, setSelectedTab] = useState<'featured' | 'hot'>('featured');
   const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
@@ -57,10 +57,6 @@ export default function AchievementsPage() {
       case 'hot':
         return filteredAchievements
           .sort((a, b) => b.viewCount - a.viewCount)
-          .slice(0, 10);
-      case 'recommended':
-        return filteredAchievements
-          .sort((a, b) => b.followCount - a.followCount)
           .slice(0, 10);
       default:
         return filteredAchievements.filter(a => a.isHot);
@@ -155,8 +151,7 @@ export default function AchievementsPage() {
         <div className="flex space-x-1 bg-gray-100 rounded-custom p-1">
           {[
             { key: 'featured', label: '成果精选', icon: '⭐' },
-            { key: 'hot', label: '热搜榜', icon: '🔥' },
-            { key: 'recommended', label: '猜你喜欢', icon: '💡' }
+            { key: 'hot', label: '热搜榜', icon: '🔥' }
           ].map(tab => (
             <button
               key={tab.key}
