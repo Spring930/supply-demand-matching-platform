@@ -111,7 +111,7 @@ export default function PublishDemandPage() {
         {/* 页面标题 */}
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-title mb-4">发布需求</h1>
-          <p className="text-gray-600">详细描述您的技术需求，让更多专家为您提供解决方案</p>
+          <p className="text-gray-600">详细描述您的需求，让更多人为您提供解决方案</p>
         </div>
         {/* 返回按钮 */}
         <div className="mb-8">
