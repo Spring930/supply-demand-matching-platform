@@ -25,36 +25,7 @@ const INDUSTRY_DATA = [
   { name: '其他', value: 5, color: '#9AA0A6', demands: 58 },
 ];
 
-// 热门需求数据
-const HOT_DEMANDS = [
-  {
-    id: '1',
-    title: '高效太阳能电池技术合作需求',
-    company: '阳光新能源科技有限公司',
-    location: '北京',
-    solutions: 10,
-    status: 'urgent',
-    industry: '新能源'
-  },
-  {
-    id: '2', 
-    title: '工业物联网预测性维护解决方案',
-    company: '华远智能制造股份公司',
-    location: '上海',
-    solutions: 8,
-    status: 'hot',
-    industry: '智能制造'
-  },
-  {
-    id: '3',
-    title: '糖尿病早期筛查技术',
-    company: '康泰医疗器械有限公司', 
-    location: '广州',
-    solutions: 6,
-    status: 'hot',
-    industry: '医疗健康'
-  },
-];
+
 
 export default function MapPage() {
   const [selectedTab, setSelectedTab] = useState<'demands' | 'achievements'>('demands');
@@ -343,48 +314,7 @@ export default function MapPage() {
         </div>
       </div>
 
-      {/* 热门需求 */}
-      <div className="mt-8 bg-white rounded-custom shadow-md p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <span className="text-xl mr-2">🔥</span>
-            <h3 className="text-lg font-semibold text-title">热门需求</h3>
-          </div>
-          <button className="text-accent-600 hover:text-accent-700 text-sm">
-            更多
-          </button>
-        </div>
-        
-        <div className="space-y-4">
-          {HOT_DEMANDS.map((demand) => (
-            <div key={demand.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-custom hover:bg-gray-100 transition-colors">
-              <div className="flex-1">
-                <div className="flex items-center mb-2">
-                  <h4 className="font-semibold text-title mr-3">{demand.title}</h4>
-                  <span className={`px-2 py-1 rounded text-xs ${
-                    demand.status === 'urgent' 
-                      ? 'bg-red-100 text-red-600' 
-                      : 'bg-accent-100 text-accent-700'
-                  }`}>
-                    {demand.status === 'urgent' ? '紧急' : '热门'}
-                  </span>
-                </div>
-                <div className="flex items-center text-sm text-gray-600 space-x-4">
-                  <span>🏢 {demand.company}</span>
-                  <span>📍 {demand.location}</span>
-                  <span>💡 {demand.solutions}个对接方案</span>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-500 mb-1">{demand.industry}</div>
-                <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors text-sm">
-                  查看详情
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }
