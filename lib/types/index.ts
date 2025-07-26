@@ -196,3 +196,92 @@ export type Language = 'zh' | 'en';
 
 // 主题模式
 export type ThemeMode = 'light' | 'dark' | 'system';
+
+// 合作机构类型
+export enum CooperationType {
+  UNIVERSITY = 'university',           // 高等院校
+  ENTERPRISE = 'enterprise',           // 企业
+  RESEARCH_INSTITUTE = 'research_institute', // 科研院所
+  GOVERNMENT = 'government',           // 政府机构
+}
+
+// 合作状态
+export enum CooperationStatus {
+  ACTIVE = 'active',               // 积极寻求合作
+  SELECTIVE = 'selective',         // 选择性合作
+  INACTIVE = 'inactive',           // 暂停合作
+}
+
+// 合作领域
+export enum CooperationArea {
+  TECHNOLOGY_TRANSFER = 'technology_transfer',     // 技术转移
+  JOINT_RESEARCH = 'joint_research',               // 联合研发
+  TALENT_EXCHANGE = 'talent_exchange',             // 人才交流
+  STUDENT_INTERNSHIP = 'student_internship',       // 学生实习
+  EQUIPMENT_SHARING = 'equipment_sharing',         // 设备共享
+  INVESTMENT = 'investment',                       // 投资合作
+  CONSULTING = 'consulting',                       // 咨询服务
+}
+
+// 合作机构信息
+export interface Cooperation {
+  id: string;
+  name: string;                    // 机构名称
+  shortName?: string;              // 机构简称
+  type: CooperationType;           // 机构类型
+  region: string;                  // 所属区域
+  city: string;                    // 城市
+  description: string;             // 机构介绍
+  logo?: string;                   // 机构logo
+  establishedYear: number;         // 成立年份
+  scale: 'small' | 'medium' | 'large'; // 机构规模
+  
+  // 联系信息
+  contactInfo: {
+    phone: string;
+    email: string;
+    address: string;
+    website?: string;
+    contactPerson: string;         // 联系人
+    position?: string;             // 联系人职位
+  };
+  
+  // 合作相关
+  cooperationAreas: CooperationArea[];  // 合作领域
+  status: CooperationStatus;            // 合作状态
+  successfulProjects: number;           // 成功合作项目数
+  
+  // 优势与特色
+  advantages: string[];                 // 机构优势
+  specialties: string[];                // 专业领域
+  
+  // 统计信息
+  rating: number;                       // 评分(1-5)
+  cooperationCount: number;             // 合作次数
+  
+  // 时间信息
+  createdAt: Date;
+  updatedAt: Date;
+  
+  // 推荐标签
+  isRecommended?: boolean;              // 是否推荐
+  isVerified?: boolean;                 // 是否认证
+}
+
+// 合作筛选器
+export interface CooperationFilters {
+  keyword?: string;                     // 关键字搜索
+  type?: CooperationType;               // 机构类型
+  region?: string;                      // 所属区域
+  cooperationArea?: CooperationArea;    // 合作领域
+  status?: CooperationStatus;           // 合作状态
+  scale?: 'small' | 'medium' | 'large'; // 机构规模
+  establishedYearRange?: {              // 成立年份范围
+    start: number;
+    end: number;
+  };
+  ratingRange?: {                       // 评分范围
+    min: number;
+    max: number;
+  };
+}
