@@ -203,7 +203,7 @@ export default function EcoDesignerPage() {
         <div className="max-w-4xl mx-auto mt-12">
           <div className="bg-gradient-to-r from-accent-50 to-secondary-50 rounded-custom p-8">
             <h2 className="text-2xl font-bold text-title mb-6 text-center">生态设计核心原则</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               <div className="text-center">
                 <div className="w-12 h-12 bg-accent-500 rounded-custom flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">♻️</span>
@@ -224,6 +224,13 @@ export default function EcoDesignerPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-title mb-2">可持续性</h3>
                 <p className="text-gray-600 text-sm">确保设计方案的长期可持续性和生态效益</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-accent-500 rounded-custom flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🏢</span>
+                </div>
+                <h3 className="text-lg font-semibold text-title mb-2">实用性保障</h3>
+                <p className="text-gray-600 text-sm">做好生态方案、商业价值与用户体验舒适度的平衡，考量自然生态+社会生态的关系，避免为了绿色而绿色，做以人为本、为企业创造更大商业价值、为社会更好服务的生态方案</p>
               </div>
             </div>
           </div>
