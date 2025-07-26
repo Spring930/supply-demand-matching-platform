@@ -11,7 +11,17 @@ const nextConfig: NextConfig = {
     'localhost',
     '127.0.0.1',
     '0.0.0.0'
-  ]
+  ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
