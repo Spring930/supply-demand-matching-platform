@@ -411,17 +411,17 @@ export const TALENT_MODULES = [
   {
     id: 'innovation-coordinator',
     name: '创新协同员专区',
-    description: '协同创新专家，协助产学研合作和跨领域协同',
-    icon: '🤝',
+    description: '专业创新协同员，为您提供创新项目协调和团队协作服务',
+    icon: '⚡',
     path: '/services/talent/innovation-coordinator',
     buttonText: '进入专区',
   },
   {
-    id: 'ecosystem-designer',
+    id: 'eco-designer',
     name: '生态设计师专区',
-    description: '专业生态设计师，构建创新生态系统和平台',
-    icon: '🎨',
-    path: '/services/talent/ecosystem-designer',
+    description: '专业生态设计师，为您提供可持续发展设计和生态系统构建服务',
+    icon: '🌿',
+    path: '/services/talent/eco-designer',
     buttonText: '进入专区',
   },
 ] as const;
