@@ -43,11 +43,19 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // 验证必填字段
-    const requiredFields = ['title', 'summary', 'description', 'type', 'contact', 'contactPerson'];
+    const requiredFields = ['title', 'summary', 'fullDescription', 'type', 'contact', 'contactPerson'];
     for (const field of requiredFields) {
       if (!body[field]) {
+        const fieldNames = {
+          title: '需求标题',
+          summary: '需求概述', 
+          fullDescription: '需求详情',
+          type: '需求类型',
+          contact: '联系方式',
+          contactPerson: '联系人'
+        };
         return NextResponse.json(
-          { success: false, error: `${field} 是必填字段` },
+          { success: false, error: `${fieldNames[field as keyof typeof fieldNames]} 是必填字段` },
           { status: 400 }
         );
       }
@@ -58,8 +66,8 @@ export async function POST(request: NextRequest) {
       userId: 1, // 暂时使用固定用户ID，后续需要从认证中获取
       title: body.title,
       summary: body.summary,
-      description: body.description,
-      fullDescription: body.fullDescription || null,
+      description: body.fullDescription, // 将fullDescription作为主要描述
+      fullDescription: body.fullDescription,
       type: body.type,
       industry: body.industry || null,
       region: body.region || null,
