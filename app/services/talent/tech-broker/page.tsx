@@ -114,15 +114,17 @@ export default function TechBrokerPage() {
                   {/* 操作按钮 */}
                   <div className="mt-8 relative z-10">
                     {step.id === '01' ? (
-                      <button className="
-                        w-full bg-accent-500 hover:bg-accent-600 
-                        text-white font-medium py-3 px-6 
-                        rounded-custom border border-accent-500 hover:border-accent-600
-                        transition-all duration-300
-                        hover:scale-105 active:scale-95
-                      ">
-                        开始{step.title}
-                      </button>
+                      <Link href="/services/talent/tech-broker/contract">
+                        <button className="
+                          w-full bg-accent-500 hover:bg-accent-600 
+                          text-white font-medium py-3 px-6 
+                          rounded-custom border border-accent-500 hover:border-accent-600
+                          transition-all duration-300
+                          hover:scale-105 active:scale-95
+                        ">
+                          开始{step.title}
+                        </button>
+                      </Link>
                     ) : (
                       <div className="
                         w-full bg-primary-100 border border-primary-200
