@@ -286,7 +286,7 @@ export const MOCK_DEMANDS = [
     deadline: '2024-06-30',
     requirements: ['技术成熟度TRL7以上', '可规模化生产', '成本优化方案', '专利无纠纷'],
     tags: ['太阳能', '封装技术', '新能源', '清洁技术'],
-    status: 'urgent',
+    status: 'featured',
     category: 'featured',
     contact: 'contact@suntech.com',
     urgency: '紧急',
