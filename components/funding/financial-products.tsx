@@ -91,10 +91,10 @@ export default function FinancialProducts() {
   return (
     <div className="mb-16 mt-20">
       <h2 className="text-3xl font-bold text-title mb-4">
-        科技金融产品
+        金融产品
       </h2>
       <p className="text-gray-600 mb-12 max-w-2xl">
-        为不同类型的科技企业提供专业的融资担保服务，助力企业发展
+        为不同类型的企业提供专业的融资服务，助力企业发展
       </p>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
