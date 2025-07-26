@@ -27,7 +27,7 @@ export default function FundingPageClient() {
             金融融资服务
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            为您的创新项目提供全方位的金融支持服务，从概念验证到融资对接，
+            为您的创新项目提供全方位的金融支持服务，
             助力您的项目获得资金支持并实现产业化发展
           </p>
         </div>
