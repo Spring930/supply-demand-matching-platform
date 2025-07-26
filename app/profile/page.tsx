@@ -1,6 +1,7 @@
 // 个人中心页面
 
 import { Metadata } from 'next';
+import { LogoutButton } from '@/components/common/logout-button';
 
 export const metadata: Metadata = {
   title: '个人中心 - 供需对接平台',
@@ -18,7 +19,7 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* 侧边栏 */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-custom shadow-md p-6">
+          <div className="bg-white rounded-custom shadow-md p-6 flex flex-col h-fit">
             <div className="text-center mb-6">
               <div className="w-20 h-20 bg-accent-100 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <span className="text-3xl">👤</span>
@@ -27,7 +28,7 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-600">企业用户</p>
             </div>
             
-            <nav className="space-y-2">
+            <nav className="space-y-2 flex-1">
               <a href="#" className="block px-4 py-2 bg-accent-50 text-accent-700 rounded-custom">
                 个人信息
               </a>
@@ -47,6 +48,11 @@ export default function ProfilePage() {
                 账户设置
               </a>
             </nav>
+            
+            {/* 退出登录按钮 */}
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <LogoutButton />
+            </div>
           </div>
         </div>
         
