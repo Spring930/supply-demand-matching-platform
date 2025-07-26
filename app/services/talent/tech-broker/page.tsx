@@ -85,15 +85,15 @@ export default function TechBrokerPage() {
                   p-8 h-full overflow-hidden
                 `}>
                   {/* 背景装饰 */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent-50 rounded-full -translate-y-16 translate-x-16"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent-50 rounded-full translate-y-12 -translate-x-12"></div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent-50 rounded-full -translate-y-16 translate-x-16 z-10"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent-50 rounded-full translate-y-12 -translate-x-12 z-10"></div>
                   
                   {/* 步骤编号 */}
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6 relative z-20">
                     <div className="w-12 h-12 bg-accent-100 rounded-custom flex items-center justify-center">
                       <span className="text-2xl">{step.icon}</span>
                     </div>
-                    <div className="text-4xl font-bold text-accent-600">
+                    <div className="text-4xl font-bold text-accent-600 relative z-30 mr-2">
                       {step.id}
                     </div>
                   </div>
@@ -113,15 +113,29 @@ export default function TechBrokerPage() {
 
                   {/* 操作按钮 */}
                   <div className="mt-8 relative z-10">
-                    <button className="
-                      w-full bg-accent-500 hover:bg-accent-600 
-                      text-white font-medium py-3 px-6 
-                      rounded-custom border border-accent-500 hover:border-accent-600
-                      transition-all duration-300
-                      hover:scale-105 active:scale-95
-                    ">
-                      开始{step.title}
-                    </button>
+                    {step.id === '01' ? (
+                      <button className="
+                        w-full bg-accent-500 hover:bg-accent-600 
+                        text-white font-medium py-3 px-6 
+                        rounded-custom border border-accent-500 hover:border-accent-600
+                        transition-all duration-300
+                        hover:scale-105 active:scale-95
+                      ">
+                        开始{step.title}
+                      </button>
+                    ) : (
+                      <div className="
+                        w-full bg-primary-100 border border-primary-200
+                        text-primary-600 font-medium py-3 px-6 
+                        rounded-custom flex items-center justify-center
+                        cursor-not-allowed opacity-80
+                      ">
+                        <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                        请先成为签约技术经纪人
+                      </div>
+                    )}
                   </div>
 
                   {/* 连接线（不是最后一个卡片） */}
