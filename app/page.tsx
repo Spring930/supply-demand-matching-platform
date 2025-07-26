@@ -3,40 +3,26 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { MOCK_DEMANDS, REGIONS } from '@/lib/constants';
 
-// 模拟数据
-const featuredDemands = [
-  {
-    id: 1,
-    title: 'AI图像识别算法优化需求',
-    description: '寻求在医疗影像识别领域有经验的AI算法团队，优化现有的图像识别准确率...',
-    type: '技术需求',
-    budget: '50万-100万',
-    deadline: '2024-06-30',
-    location: '北京市',
-    tags: ['AI', '图像识别', '医疗'],
-  },
-  {
-    id: 2,
-    title: '新能源汽车电池管理系统',
-    description: '需要开发高效的电池管理系统，提升电池使用寿命和安全性...',
-    type: '技术需求',
-    budget: '100万-200万',
-    deadline: '2024-08-15',
-    location: '上海市',
-    tags: ['新能源', '电池', '汽车'],
-  },
-  {
-    id: 3,
-    title: '区块链供应链溯源平台',
-    description: '构建基于区块链的食品供应链溯源系统，确保食品安全可追溯...',
-    type: '合作需求',
-    budget: '面议',
-    deadline: '2024-07-20',
-    location: '深圳市',
-    tags: ['区块链', '供应链', '溯源'],
-  },
-];
+// 从MOCK_DEMANDS中选择热门需求来展示
+const featuredDemands = MOCK_DEMANDS.filter(demand => 
+  demand.status === 'featured' || demand.status === 'hot'
+).slice(0, 3);
+
+// 获取地区信息的辅助函数
+const getRegionLabel = (regionCode: string) => {
+  const region = REGIONS.find(r => r.value === regionCode);
+  return region ? region.label : regionCode;
+};
+
+// 格式化预算显示
+const formatBudget = (budget: number | string) => {
+  if (typeof budget === 'number') {
+    return `${budget}万元`;
+  }
+  return budget;
+};
 
 const featuredAchievements = [
   {
@@ -128,34 +114,36 @@ export default function HomePage() {
               <Card key={demand.id} className="hover:shadow-lg transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <Badge variant="primary">{demand.type}</Badge>
-                    <span className="text-sm text-gray-500">{demand.location}</span>
+                    <Badge variant="primary">技术需求</Badge>
+                    <span className="text-sm text-gray-500">{getRegionLabel(demand.region)}</span>
                   </div>
                   <CardTitle className="text-lg">{demand.title}</CardTitle>
                   <CardDescription className="text-truncate-2">
-                    {demand.description}
+                    {demand.summary}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">预算：</span>
-                      <span className="font-medium text-accent-600">{demand.budget}</span>
+                      <span className="font-medium text-accent-600">{formatBudget(demand.budget || '面议')}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">截止：</span>
                       <span className="font-medium">{demand.deadline}</span>
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {demand.tags.map((tag) => (
+                      {demand.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs">
                           {tag}
                         </Badge>
                       ))}
                     </div>
-                    <Button className="w-full mt-4" variant="outline">
-                      查看详情
-                    </Button>
+                    <Link href={`/demands/${demand.id}`} className="block">
+                      <Button className="w-full mt-4" variant="outline">
+                        查看详情
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>

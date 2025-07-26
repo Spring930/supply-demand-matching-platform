@@ -153,7 +153,7 @@ export default function MapPage() {
                   全国{selectedTab === 'demands' ? '需求' : '成果'}分布图
                 </h2>
                 <div className="flex items-center text-sm text-gray-600">
-                  <span>当前层级: 全国 > {selectedRegion}</span>
+                  <span>{`当前层级: 全国 > ${selectedRegion}`}</span>
                 </div>
               </div>
             </div>
