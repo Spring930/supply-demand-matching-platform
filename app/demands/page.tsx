@@ -1,9 +1,10 @@
 'use client';
 
 import { Metadata } from 'next';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { MOCK_DEMANDS, DEMAND_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
+import { DEMAND_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
+import type { Demand } from '@/lib/db/schema';
 
 export default function DemandsPage() {
   const [selectedTab, setSelectedTab] = useState<'featured' | 'hot' | 'challenge'>('featured');
@@ -12,6 +13,9 @@ export default function DemandsPage() {
   const [selectedSubject, setSelectedSubject] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [followedDemands, setFollowedDemands] = useState<Set<string>>(new Set());
+  const [demands, setDemands] = useState<Demand[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   // 跟随/取消跟随需求
   const toggleFollow = (demandId: string) => {
@@ -26,46 +30,67 @@ export default function DemandsPage() {
     });
   };
 
+  // 获取需求数据
+  useEffect(() => {
+    fetchDemands();
+  }, []);
+
+  const fetchDemands = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/demands');
+      const result = await response.json();
+      
+      if (result.success) {
+        setDemands(result.data);
+      } else {
+        setError('获取需求列表失败');
+      }
+    } catch (err) {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // 筛选需求
   const filteredDemands = useMemo(() => {
-    return MOCK_DEMANDS.filter(demand => {
+    return demands.filter(demand => {
       return (selectedRegion === 'all' || demand.region === selectedRegion) &&
              (selectedIndustry === 'all' || demand.industry === selectedIndustry) &&
              (selectedType === 'all' || demand.type === selectedType);
     });
-  }, [selectedRegion, selectedIndustry, selectedType]);
+  }, [demands, selectedRegion, selectedIndustry, selectedType]);
 
   // 获取推荐需求
   const getRecommendedDemands = () => {
     switch (selectedTab) {
       case 'hot':
         return filteredDemands
-          .filter(d => d.category === 'hot')
-          .sort((a, b) => b.viewCount - a.viewCount);
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       case 'challenge':
         return filteredDemands
-          .filter(d => d.category === 'challenge')
-          .sort((a, b) => b.budget - a.budget);
+          .filter(d => d.urgency === 'urgent')
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       default:
         return filteredDemands
-          .filter(d => d.category === 'featured')
-          .sort((a, b) => b.followCount - a.followCount);
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
   };
 
   const displayDemands = getRecommendedDemands();
 
   // 获取状态颜色和文本
-  const getStatusStyle = (status: string) => {
-    switch (status) {
+  const getStatusStyle = (urgency: string) => {
+    switch (urgency) {
       case 'urgent':
         return { bg: 'bg-red-100', text: 'text-red-600', label: '🔥 紧急' };
-      case 'hot':
-        return { bg: 'bg-orange-100', text: 'text-orange-600', label: '🔥 热门' };
-      case 'challenge':
-        return { bg: 'bg-purple-100', text: 'text-purple-600', label: '🏆 挑战' };
+      case 'high':
+        return { bg: 'bg-orange-100', text: 'text-orange-600', label: '🔥 重要' };
+      case 'medium':
+        return { bg: 'bg-blue-100', text: 'text-blue-600', label: '📄 一般' };
       default:
-        return { bg: 'bg-accent-100', text: 'text-accent-600', label: '⭐ 精选' };
+        return { bg: 'bg-accent-100', text: 'text-accent-600', label: '⭐ 普通' };
     }
   };
 
@@ -174,17 +199,38 @@ export default function DemandsPage() {
 
       {/* 需求列表 */}
       <div className="space-y-6">
-        {displayDemands.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="w-8 h-8 border-4 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-500">加载需求数据中...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="w-24 h-24 bg-red-100 rounded-custom flex items-center justify-center mx-auto mb-4">
+              <span className="text-4xl">❌</span>
+            </div>
+            <h3 className="text-lg font-medium text-red-600 mb-2">{error}</h3>
+            <button 
+              onClick={fetchDemands}
+              className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors"
+            >
+              重新加载
+            </button>
+          </div>
+        ) : displayDemands.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-24 h-24 bg-gray-100 rounded-custom flex items-center justify-center mx-auto mb-4">
               <span className="text-4xl">🔍</span>
             </div>
             <h3 className="text-lg font-medium text-gray-600 mb-2">暂无匹配的需求</h3>
-            <p className="text-gray-500">请尝试调整筛选条件</p>
+            <p className="text-gray-500">请尝试调整筛选条件或</p>
+            <Link href="/demands/publish" className="text-accent-600 hover:text-accent-700 font-medium">
+              发布第一个需求
+            </Link>
           </div>
         ) : (
           displayDemands.map((demand) => {
-            const statusStyle = getStatusStyle(demand.status);
+            const statusStyle = getStatusStyle(demand.urgency);
             return (
               <div key={demand.id} className="bg-white rounded-custom shadow-md hover:shadow-lg transition-shadow">
                 <div className="p-6">
@@ -200,23 +246,23 @@ export default function DemandsPage() {
                       </div>
                       <p className="text-accent-600 font-medium mb-2">{demand.summary}</p>
                       <div className="flex items-center text-sm text-gray-500 space-x-4">
-                        <span>🏢 {demand.demander}</span>
-                        <span>📅 {demand.publishDate}</span>
-                        <span>👁️ {demand.viewCount}</span>
-                        <span>➕ {demand.followCount + (followedDemands.has(demand.id) ? 1 : 0)}</span>
+                        <span>🏢 {demand.organization || '未指定'}</span>
+                        <span>📅 {new Date(demand.createdAt).toLocaleDateString('zh-CN')}</span>
+                        <span>📍 {demand.region || '全国'}</span>
+                        <span>🎨 {INDUSTRIES.find(i => i.value === demand.industry)?.label || demand.industry}</span>
                       </div>
                     </div>
                     
                     {/* 跟随按钮 */}
                     <button
-                      onClick={() => toggleFollow(demand.id)}
+                      onClick={() => toggleFollow(demand.id.toString())}
                       className={`ml-4 w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                        followedDemands.has(demand.id)
+                        followedDemands.has(demand.id.toString())
                           ? 'bg-accent-500 text-white'
                           : 'bg-gray-100 text-gray-600 hover:bg-accent-100'
                       }`}
                     >
-                      {followedDemands.has(demand.id) ? '✓' : '+'}
+                      {followedDemands.has(demand.id.toString()) ? '✓' : '+'}
                     </button>
                   </div>
 
@@ -229,48 +275,54 @@ export default function DemandsPage() {
                   </div>
 
                   {/* 需求要求 */}
-                  <div className="mb-4">
-                    <span className="text-sm font-medium text-gray-700 block mb-2">技术要求</span>
-                    <div className="flex flex-wrap gap-2">
-                      {demand.requirements.map(req => (
-                        <span key={req} className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-custom border">
-                          ✓ {req}
-                        </span>
-                      ))}
+                  {demand.requirements && demand.requirements.length > 0 && (
+                    <div className="mb-4">
+                      <span className="text-sm font-medium text-gray-700 block mb-2">技术要求</span>
+                      <div className="flex flex-wrap gap-2">
+                        {demand.requirements.map((req, index) => (
+                          <span key={index} className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-custom border">
+                            ✓ {req}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* 标签 */}
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
-                      {demand.tags.map(tag => (
-                        <span key={tag} className="px-2 py-1 bg-accent-100 text-accent-700 text-xs rounded-custom">
-                          #{tag}
-                        </span>
-                      ))}
+                  {demand.tags && demand.tags.length > 0 && (
+                    <div className="mb-4">
+                      <div className="flex flex-wrap gap-2">
+                        {demand.tags.map((tag, index) => (
+                          <span key={index} className="px-2 py-1 bg-accent-100 text-accent-700 text-xs rounded-custom">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* 项目信息 */}
                   <div className="mb-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      <div>
-                        <span className="text-gray-500">预算范围:</span>
-                        <div className="font-medium text-green-600">{demand.budget}万元</div>
-                      </div>
-                      <div>
-                        <span className="text-gray-500">截止时间:</span>
-                        <div className="font-medium text-orange-600">{demand.deadline}</div>
-                      </div>
+                      {demand.budget && (
+                        <div>
+                          <span className="text-gray-500">预算范围:</span>
+                          <div className="font-medium text-green-600">{demand.budget}</div>
+                        </div>
+                      )}
+                      {demand.deadline && (
+                        <div>
+                          <span className="text-gray-500">截止时间:</span>
+                          <div className="font-medium text-orange-600">{demand.deadline}</div>
+                        </div>
+                      )}
                       <div>
                         <span className="text-gray-500">联系方式:</span>
                         <div className="font-medium text-blue-600">{demand.contact}</div>
                       </div>
                       <div>
-                        <span className="text-gray-500">所属行业:</span>
-                        <div className="font-medium">
-                          {INDUSTRIES.find(i => i.value === demand.industry)?.label}
-                        </div>
+                        <span className="text-gray-500">联系人:</span>
+                        <div className="font-medium text-gray-700">{demand.contactPerson}</div>
                       </div>
                     </div>
                   </div>

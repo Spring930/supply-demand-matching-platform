@@ -87,14 +87,50 @@ export default function PublishDemandPage() {
     }));
   };
 
+  // 提交状态
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
   // 提交表单
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 这里可以添加提交逻辑
-    console.log('提交需求数据:', formData);
-    // 提交成功后清空本地存储并跳转
-    clearLocalStorage();
-    router.push('/demands');
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      // 过滤空的数组元素
+      const cleanedData = {
+        ...formData,
+        requirements: formData.requirements.filter(req => req.trim()),
+        tags: formData.tags.filter(tag => tag.trim())
+      };
+
+      console.log('提交需求数据:', cleanedData);
+
+      const response = await fetch('/api/demands', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cleanedData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // 提交成功后清空本地存储并跳转
+        clearLocalStorage();
+        alert('需求发布成功！');
+        router.push('/demands');
+      } else {
+        setSubmitError(result.error || '发布失败，请稍后重试');
+      }
+    } catch (error) {
+      console.error('提交需求失败:', error);
+      setSubmitError('网络错误，请检查网络连接后重试');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // 处理页面退出
@@ -430,20 +466,36 @@ export default function PublishDemandPage() {
               </div>
             </div>
 
+            {/* 错误提示 */}
+            {submitError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-custom">
+                {submitError}
+              </div>
+            )}
+
             {/* 提交按钮 */}
             <div className="flex justify-center gap-4">
               <button
                 type="button"
                 onClick={saveToLocalStorage}
-                className="px-8 py-3 bg-gray-300 text-gray-700 rounded-custom hover:bg-gray-400 transition-colors"
+                disabled={isSubmitting}
+                className="px-8 py-3 bg-gray-300 text-gray-700 rounded-custom hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                保存
+                保存草稿
               </button>
               <button
                 type="submit"
-                className="px-8 py-3 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors font-medium"
+                disabled={isSubmitting}
+                className="px-8 py-3 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                发布需求
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    发布中...
+                  </>
+                ) : (
+                  '发布需求'
+                )}
               </button>
             </div>
           </form>

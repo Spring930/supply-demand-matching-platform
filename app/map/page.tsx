@@ -3,20 +3,27 @@
 import { Metadata } from 'next';
 import { useState, useEffect } from 'react';
 
-// 模拟地区数据
-const REGION_DATA = [
-  { name: '北京', code: 'BJ', demands: 248, achievements: 156, newThisMonth: 32, mainIndustries: ['人工智能', '新材料'], color: '#00FFB9' },
-  { name: '上海', code: 'SH', demands: 245, achievements: 142, newThisMonth: 28, mainIndustries: ['生物技术', '智能制造'], color: '#00E6A7' },
-  { name: '广东', code: 'GD', demands: 276, achievements: 189, newThisMonth: 45, mainIndustries: ['电子信息', '新能源'], color: '#00CC95' },
-  { name: '江苏', code: 'JS', demands: 298, achievements: 167, newThisMonth: 38, mainIndustries: ['智能制造', '新材料'], color: '#00B383' },
-  { name: '浙江', code: 'ZJ', demands: 271, achievements: 143, newThisMonth: 29, mainIndustries: ['数字经济', '生物医药'], color: '#009971' },
-  { name: '四川', code: 'SC', demands: 272, achievements: 134, newThisMonth: 31, mainIndustries: ['电子信息', '航空航天'], color: '#008866' },
-  { name: '湖北', code: 'HB', demands: 261, achievements: 128, newThisMonth: 26, mainIndustries: ['光电子', '生物技术'], color: '#007755' },
-  { name: '山东', code: 'SD', demands: 285, achievements: 158, newThisMonth: 33, mainIndustries: ['海洋科技', '新能源'], color: '#006644' },
-];
+// 定义数据类型
+interface RegionData {
+  name: string;
+  code: string;
+  demands: number;
+  achievements: number;
+  total: number;
+  color: string;
+  newThisMonth?: number;
+  mainIndustries?: string[];
+}
 
-// 行业需求分布数据
-const INDUSTRY_DATA = [
+interface IndustryData {
+  name: string;
+  value: number;
+  color: string;
+  demands: number;
+}
+
+// 默认的行业数据（用于备用）
+const DEFAULT_INDUSTRY_DATA: IndustryData[] = [
   { name: '新能源', value: 27, color: '#FF8C00', demands: 312 },
   { name: '人工智能', value: 23, color: '#00FFB9', demands: 268 },
   { name: '生物技术', value: 18, color: '#4169E1', demands: 210 },
@@ -34,18 +41,88 @@ export default function MapPage() {
   const [selectedTimeRange, setSelectedTimeRange] = useState('全部时间');
   const [selectedType, setSelectedType] = useState('全部类型');
   const [sortBy, setSortBy] = useState('按数量');
+  
+  // 状态管理
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
+  const [industryData, setIndustryData] = useState<IndustryData[]>(DEFAULT_INDUSTRY_DATA);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // 获取地图数据
+  useEffect(() => {
+    async function fetchMapData() {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/map-stats');
+        
+        if (!response.ok) {
+          throw new Error('获取数据失败');
+        }
+        
+        const result = await response.json();
+        if (result.success) {
+          // 添加默认字段
+          const processedData = result.data.map((item: RegionData) => ({
+            ...item,
+            newThisMonth: Math.floor(item.total * 0.1),
+            mainIndustries: ['人工智能', '新材料']
+          }));
+          setRegionData(processedData);
+        } else {
+          throw new Error(result.error || '获取数据失败');
+        }
+      } catch (err) {
+        console.error('Error fetching map data:', err);
+        setError(err instanceof Error ? err.message : '获取数据失败');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMapData();
+  }, []);
 
   // 获取当前显示的数据
   const getCurrentData = () => {
     if (selectedTab === 'demands') {
-      return REGION_DATA.map(region => ({ ...region, value: region.demands }));
+      return regionData.map(region => ({ ...region, value: region.demands }));
     } else {
-      return REGION_DATA.map(region => ({ ...region, value: region.achievements }));
+      return regionData.map(region => ({ ...region, value: region.achievements }));
     }
   };
 
   const currentData = getCurrentData();
-  const maxValue = Math.max(...currentData.map(d => d.value));
+  const maxValue = currentData.length > 0 ? Math.max(...currentData.map(d => d.value)) : 0;
+
+  // 加载状态
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">加载地图数据中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 错误状态
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="text-red-500 text-xl mb-4">⚠️ 数据加载失败</div>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600"
+          >
+            重试
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -164,7 +241,7 @@ export default function MapPage() {
                 {/* 简化的中国地图展示 */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="grid grid-cols-4 gap-4 w-full h-full p-8">
-                    {REGION_DATA.slice(0, 8).map((region, index) => {
+                    {currentData.slice(0, 8).map((region, index) => {
                       const intensity = (region[selectedTab === 'demands' ? 'demands' : 'achievements'] / maxValue);
                       return (
                         <div
@@ -235,16 +312,16 @@ export default function MapPage() {
             
             {/* 柱状图 */}
             <div className="space-y-2">
-              {REGION_DATA.slice(0, 6).map((region) => (
+              {currentData.slice(0, 6).map((region) => (
                 <div key={region.code} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600 w-12">{region.code}</span>
+                  <span className="text-sm text-gray-600 w-16 truncate" title={region.name}>{region.name}</span>
                   <div className="flex-1 mx-3">
                     <div className="bg-gray-200 rounded-full h-6 relative">
                       <div 
                         className="bg-accent-500 h-6 rounded-full flex items-center justify-end pr-2"
-                        style={{ width: `${(region.demands / 300) * 100}%` }}
+                        style={{ width: `${maxValue > 0 ? (region.value / maxValue) * 100 : 0}%` }}
                       >
-                        <span className="text-xs text-white font-medium">{region.demands}</span>
+                        <span className="text-xs text-white font-medium">{region.value}</span>
                       </div>
                     </div>
                   </div>
@@ -268,8 +345,8 @@ export default function MapPage() {
             <div className="relative mb-4">
               <div className="w-48 h-48 mx-auto relative">
                 <svg viewBox="0 0 200 200" className="w-full h-full">
-                  {INDUSTRY_DATA.map((item, index) => {
-                    const startAngle = INDUSTRY_DATA.slice(0, index).reduce((sum, d) => sum + (d.value / 100 * 360), 0);
+                  {industryData.map((item, index) => {
+                    const startAngle = industryData.slice(0, index).reduce((sum, d) => sum + (d.value / 100 * 360), 0);
                     const endAngle = startAngle + (item.value / 100 * 360);
                     const x1 = 100 + 80 * Math.cos((startAngle - 90) * Math.PI / 180);
                     const y1 = 100 + 80 * Math.sin((startAngle - 90) * Math.PI / 180);
@@ -293,7 +370,7 @@ export default function MapPage() {
             
             {/* 图例 */}
             <div className="space-y-2">
-              {INDUSTRY_DATA.map((item) => (
+              {industryData.map((item) => (
                 <div key={item.name} className="flex items-center justify-between text-sm">
                   <div className="flex items-center">
                     <div 

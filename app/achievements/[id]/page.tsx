@@ -3,22 +3,75 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { MOCK_ACHIEVEMENTS, INDUSTRIES, REGIONS, SUBJECT_TYPES, ACHIEVEMENT_TYPES } from '@/lib/constants';
+import { useState, useEffect } from 'react';
+import { INDUSTRIES, REGIONS, SUBJECT_TYPES, ACHIEVEMENT_TYPES } from '@/lib/constants';
 import { SmartMatching } from '@/components/common/smart-matching';
+import { Loading } from '@/components/ui/loading';
+import type { Achievement as DbAchievement } from '@/lib/db/schema';
+
+// 扩展数据库成果类型以包含映射字段
+type Achievement = DbAchievement & {
+  researchUnit?: string;
+  publishDate?: string;
+  viewCount?: number;
+  followCount?: number;
+  achievements?: string[];
+  applicationScenarios?: string;
+};
 
 export default function AchievementDetailPage() {
   const params = useParams();
   const router = useRouter();
   const achievementId = params.id as string;
+  
+  const [achievement, setAchievement] = useState<Achievement | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 查找对应的成果
-  const achievement = MOCK_ACHIEVEMENTS.find(a => a.id === achievementId);
+  useEffect(() => {
+    async function fetchAchievement() {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/achievements/${achievementId}`);
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('成果未找到');
+          }
+          throw new Error('获取成果详情失败');
+        }
+        
+        const data = await response.json();
+        setAchievement(data);
+      } catch (err) {
+        console.error('Error fetching achievement:', err);
+        setError(err instanceof Error ? err.message : '获取成果详情失败');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  if (!achievement) {
+    if (achievementId) {
+      fetchAchievement();
+    }
+  }, [achievementId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <Loading size="xl" />
+          <p className="text-gray-600">加载成果详情中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !achievement) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-600 mb-4">成果未找到</h1>
+          <h1 className="text-2xl font-bold text-gray-600 mb-4">{error || '成果未找到'}</h1>
           <button 
             onClick={() => router.back()}
             className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors"
@@ -125,7 +178,7 @@ export default function AchievementDetailPage() {
                 <span className="font-semibold text-accent-800 text-sm uppercase tracking-wide">标签</span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {achievement.tags.map(tag => (
+                {(achievement.tags || []).map(tag => (
                   <span key={tag} className="px-3 py-1 bg-accent-200 text-accent-700 text-sm rounded-full font-medium hover:bg-accent-300 transition-colors">
                     #{tag}
                   </span>
@@ -179,7 +232,7 @@ export default function AchievementDetailPage() {
                 主要成果
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {achievement.achievements.map((item, index) => (
+                {(achievement.achievements || []).map((item, index) => (
                   <div key={index} className="flex items-start p-4 bg-accent-50 rounded-custom">
                     <span className="text-accent-500 mr-3 text-lg mt-1">✓</span>
                     <span className="text-gray-700 text-base leading-relaxed">{item}</span>
