@@ -76,9 +76,11 @@ export default function HomePage() {
                   发布需求
                 </Button>
               </Link>
-              <Button size="lg" variant="outline">
-                展示成果
-              </Button>
+              <Link href="/achievements/publish">
+                <Button size="lg" variant="outline">
+                  发布成果
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
