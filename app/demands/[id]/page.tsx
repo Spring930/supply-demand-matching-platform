@@ -3,27 +3,77 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { MOCK_DEMANDS, INDUSTRIES, REGIONS } from '@/lib/constants';
+import { useState, useEffect } from 'react';
+import { INDUSTRIES, REGIONS } from '@/lib/constants';
+import type { Demand } from '@/lib/db/schema';
 
 export default function DemandDetailPage() {
   const params = useParams();
   const router = useRouter();
   const demandId = params.id as string;
+  
+  const [demand, setDemand] = useState<Demand | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // 查找对应的需求
-  const demand = MOCK_DEMANDS.find(d => d.id === demandId);
+  // 获取需求详情
+  useEffect(() => {
+    fetchDemandDetail();
+  }, [demandId]);
 
-  if (!demand) {
+  const fetchDemandDetail = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/demands/${demandId}`);
+      const result = await response.json();
+      
+      if (result.success) {
+        setDemand(result.data);
+      } else {
+        setError(result.error || '需求不存在');
+      }
+    } catch (err) {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 加载状态
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-600 mb-4">需求未找到</h1>
-          <button 
-            onClick={() => router.back()}
-            className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors"
-          >
-            返回列表
-          </button>
+          <div className="w-8 h-8 border-4 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-500">加载需求详情中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 错误状态
+  if (error || !demand) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-24 h-24 bg-red-100 rounded-custom flex items-center justify-center mx-auto mb-4">
+            <span className="text-4xl">❌</span>
+          </div>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">{error || '需求未找到'}</h1>
+          <div className="space-x-4">
+            <button 
+              onClick={fetchDemandDetail}
+              className="bg-accent-500 text-white px-6 py-3 rounded-custom hover:bg-accent-600 transition-colors"
+            >
+              重新加载
+            </button>
+            <button 
+              onClick={() => router.back()}
+              className="bg-gray-500 text-white px-6 py-3 rounded-custom hover:bg-gray-600 transition-colors"
+            >
+              返回列表
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -38,7 +88,7 @@ export default function DemandDetailPage() {
       <div className="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-16 px-4">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">{demand.title}</h1>
-          <p className="text-xl mb-8">{demand.organization}</p>
+          <p className="text-xl mb-8">{demand.organization || '未指定单位'}</p>
           <button className="bg-white text-accent-600 px-8 py-3 rounded-custom hover:bg-gray-100 transition-colors font-medium border-2 border-white">
             智能匹配
           </button>
@@ -75,7 +125,7 @@ export default function DemandDetailPage() {
                 <span className="text-accent-600 mr-2">🏢</span>
                 <span className="font-medium text-accent-800">需求单位</span>
               </div>
-              <div className="text-gray-800 font-medium">{demand.organization}</div>
+              <div className="text-gray-800 font-medium">{demand.organization || '未指定'}</div>
             </div>
 
             {/* 产业领域 */}
@@ -95,7 +145,7 @@ export default function DemandDetailPage() {
                 <span className="text-accent-600 mr-2">📅</span>
                 <span className="font-medium text-accent-800">入库日期</span>
               </div>
-              <div className="text-gray-800 font-medium">{demand.publishDate}</div>
+              <div className="text-gray-800 font-medium">{new Date(demand.createdAt).toLocaleDateString('zh-CN')}</div>
             </div>
 
             {/* 拟交易价格 */}
@@ -105,7 +155,7 @@ export default function DemandDetailPage() {
                 <span className="font-medium text-accent-800">拟交易价格</span>
               </div>
               <div className="text-gray-800 font-medium">
-                {demand.budget ? `${demand.budget}万元` : '面议'}
+                {demand.budget || '面议'}
               </div>
             </div>
 
@@ -125,7 +175,7 @@ export default function DemandDetailPage() {
                 <span className="font-medium text-accent-800">联系人</span>
               </div>
               <div className="text-gray-800 font-medium">
-                {demand.contact || '暂不公开'}
+                {demand.contactPerson || '暂不公开'}
               </div>
             </div>
           </div>
@@ -142,18 +192,33 @@ export default function DemandDetailPage() {
           </div>
 
           <div className="bg-white rounded-custom shadow-md p-8">
-            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              {demand.fullDescription || (demand as any).description}
+            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+              {demand.fullDescription || demand.description}
             </div>
+
+            {/* 需求要求 */}
+            {demand.requirements && demand.requirements.length > 0 && (
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">技术要求</h3>
+                <div className="grid gap-3">
+                  {demand.requirements.map((req, index) => (
+                    <div key={index} className="flex items-center p-3 bg-blue-50 rounded-custom border-l-4 border-blue-500">
+                      <span className="text-blue-600 mr-3">✓</span>
+                      <span className="text-gray-800">{req}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 需求标签 */}
             {demand.tags && demand.tags.length > 0 && (
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">相关标签</h3>
                 <div className="flex flex-wrap gap-2">
-                  {demand.tags.map(tag => (
+                  {demand.tags.map((tag, index) => (
                     <span 
-                      key={tag} 
+                      key={index} 
                       className="px-3 py-1 bg-accent-100 text-accent-800 text-sm rounded-custom"
                     >
                       #{tag}
@@ -171,16 +236,16 @@ export default function DemandDetailPage() {
                   <span>{region?.label}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
-                  <span className="mr-2">👁️</span>
-                  <span>{demand.viewCount} 次浏览</span>
+                  <span className="mr-2">📋</span>
+                  <span>需求类型: {demand.type}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
-                  <span className="mr-2">📊</span>
-                  <span>{demand.applicantCount || 0} 人申请</span>
+                  <span className="mr-2">📞</span>
+                  <span>联系方式: {demand.contact}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <span className="mr-2">⭐</span>
-                  <span>{demand.urgency}</span>
+                  <span>紧急程度: {demand.urgency === 'urgent' ? '紧急' : demand.urgency === 'high' ? '重要' : '一般'}</span>
                 </div>
               </div>
             </div>
