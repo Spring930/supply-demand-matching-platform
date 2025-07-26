@@ -36,7 +36,7 @@ function UserMenu() {
     return (
       <div className="flex items-center">
         <Button asChild className="rounded-full bg-white text-green-600 hover:bg-green-50 border border-green-600">
-          <Link href="/sign-in">登录/注册</Link>
+          <Link href="/auth">登录/注册</Link>
         </Button>
       </div>
     );
