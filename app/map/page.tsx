@@ -241,7 +241,7 @@ export default function MapPage() {
                 {/* 简化的中国地图展示 */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="grid grid-cols-4 gap-4 w-full h-full p-8">
-                    {REGION_DATA.slice(0, 8).map((region, index) => {
+                    {currentData.slice(0, 8).map((region, index) => {
                       const intensity = (region[selectedTab === 'demands' ? 'demands' : 'achievements'] / maxValue);
                       return (
                         <div
