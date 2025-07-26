@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MOCK_DEMANDS, REGIONS } from '@/lib/constants';
+import { MOCK_DEMANDS, REGIONS, MOCK_ACHIEVEMENTS } from '@/lib/constants';
 
 // 从MOCK_DEMANDS中选择热门需求来展示
 const featuredDemands = MOCK_DEMANDS.filter(demand => 
@@ -24,35 +24,31 @@ const formatBudget = (budget: number | string) => {
   return budget;
 };
 
-const featuredAchievements = [
-  {
-    id: 1,
-    title: '高精度3D打印技术',
-    description: '自主研发的高精度3D打印技术，可实现微米级精度，适用于医疗器械制造...',
-    type: '技术成果',
-    institution: '清华大学',
-    level: '国际先进',
-    tags: ['3D打印', '精密制造', '医疗'],
-  },
-  {
-    id: 2,
-    title: '智能农业监测系统',
-    description: '基于物联网的智能农业监测系统，实时监测土壤、气候等环境参数...',
-    type: '产品成果',
-    institution: '中科院',
-    level: '国内领先',
-    tags: ['物联网', '农业', '监测'],
-  },
-  {
-    id: 3,
-    title: '新型抗癌药物分子设计',
-    description: '通过AI辅助药物设计，成功开发出新型抗癌药物分子，已获得专利保护...',
-    type: '专利成果',
-    institution: '北京大学',
-    level: '国际先进',
-    tags: ['生物医药', 'AI', '药物设计'],
-  },
-];
+// 从MOCK_ACHIEVEMENTS中选择热门成果来展示
+const featuredAchievements = MOCK_ACHIEVEMENTS.filter(achievement => 
+  achievement.isHot
+).slice(0, 3);
+
+// 获取成果类型显示的辅助函数
+const getAchievementTypeLabel = (typeCode: string) => {
+  const typeMap: { [key: string]: string } = {
+    'technology': '技术成果',
+    'patent': '专利成果',
+    'paper': '论文成果',
+    'software': '软件成果',
+    'product': '产品成果'
+  };
+  return typeMap[typeCode] || typeCode;
+};
+
+// 获取技术成熟度简化显示
+const getMaturityLevelShort = (fullLevel: string) => {
+  if (fullLevel.includes('国际')) return '国际先进';
+  if (fullLevel.includes('国内')) return '国内领先';
+  if (fullLevel.includes('产业化')) return '可产业化';
+  if (fullLevel.includes('成熟')) return '技术成熟';
+  return '研发阶段';
+};
 
 const platformStats = [
   { label: '累计需求', value: '12,456', icon: '📋' },
@@ -173,30 +169,32 @@ export default function HomePage() {
               <Card key={achievement.id} className="hover:shadow-lg transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <Badge variant="secondary">{achievement.type}</Badge>
-                    <span className="text-sm text-secondary-600 font-medium">{achievement.level}</span>
+                    <Badge variant="secondary">{getAchievementTypeLabel(achievement.type)}</Badge>
+                    <span className="text-sm text-secondary-600 font-medium">{getMaturityLevelShort(achievement.maturityLevel)}</span>
                   </div>
                   <CardTitle className="text-lg">{achievement.title}</CardTitle>
                   <CardDescription className="text-truncate-2">
-                    {achievement.description}
+                    {achievement.summary}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">机构：</span>
-                      <span className="font-medium">{achievement.institution}</span>
+                      <span className="font-medium">{achievement.author}</span>
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {achievement.tags.map((tag) => (
+                      {achievement.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs">
                           {tag}
                         </Badge>
                       ))}
                     </div>
-                    <Button className="w-full mt-4" variant="outline">
-                      查看详情
-                    </Button>
+                    <Link href={`/achievements/${achievement.id}`} className="block">
+                      <Button className="w-full mt-4" variant="outline">
+                        查看详情
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
