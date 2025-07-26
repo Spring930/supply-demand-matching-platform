@@ -82,7 +82,7 @@ export default function InnovationCoordinatorPage() {
                   relative ${step.color} 
                   rounded-custom shadow-lg hover:shadow-xl 
                   transition-all duration-300 transform hover:-translate-y-2
-                  p-8 h-full overflow-hidden
+                  p-8 h-full overflow-hidden flex flex-col
                 `}>
                   {/* 背景装饰 */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-accent-50 rounded-full -translate-y-16 translate-x-16 z-10"></div>
@@ -99,7 +99,7 @@ export default function InnovationCoordinatorPage() {
                   </div>
 
                   {/* 卡片内容 */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex-grow">
                     <h3 className="text-2xl font-bold text-title mb-2">
                       {step.title}
                     </h3>
