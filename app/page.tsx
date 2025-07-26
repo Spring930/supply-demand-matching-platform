@@ -71,9 +71,11 @@ export default function HomePage() {
               驭风 您的供需高效对接与落地平台
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
-              <Button size="lg" className="bg-accent-500 hover:bg-accent-600">
-                发布需求
-              </Button>
+              <Link href="/demands/publish">
+                <Button size="lg" className="bg-accent-500 hover:bg-accent-600">
+                  发布需求
+                </Button>
+              </Link>
               <Button size="lg" variant="outline">
                 展示成果
               </Button>
