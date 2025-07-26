@@ -11,19 +11,19 @@ export const metadata: Metadata = {
 const BROKER_STEPS = [
   {
     id: '01',
-    title: '签约杭转',
-    subtitle: '与杭州技术转移转化中心签约',
-    description: '与杭州技术转移转化中心签约，可以使用由杭转中心提供的成果挖掘匹配等数据工具',
+    title: '签约驭风',
+    subtitle: '与驭风签约',
+    description: '与驭风签约，可以使用由驭风提供的成果挖掘匹配等数据工具',
     icon: '📝',
-    color: 'from-blue-600 to-blue-700',
+    color: 'bg-white border-2 border-accent-200 hover:border-accent-500',
   },
   {
     id: '02',
     title: '资料更新',
     subtitle: '更新您的技术经纪人资料',
-    description: '更新您的技术经纪人资料，并在杭州技术转移转化中心的线上平台展示',
+    description: '更新您的技术经纪人资料，并在驭风的线上平台展示',
     icon: '👤',
-    color: 'from-blue-600 to-blue-700',
+    color: 'bg-white border-2 border-accent-200 hover:border-accent-500',
   },
   {
     id: '03',
@@ -31,7 +31,7 @@ const BROKER_STEPS = [
     subtitle: '添加项目跟进记录',
     description: '添加项目跟进记录，并根据实际情况况进行进度情况，作为证明材料参与绩效考核',
     icon: '📊',
-    color: 'from-blue-600 to-blue-700',
+    color: 'bg-white border-2 border-accent-200 hover:border-accent-500',
   },
 ];
 
@@ -79,34 +79,34 @@ export default function TechBrokerPage() {
               >
                 {/* 卡片容器 */}
                 <div className={`
-                  relative bg-gradient-to-br ${step.color} 
+                  relative ${step.color} 
                   rounded-custom shadow-lg hover:shadow-xl 
                   transition-all duration-300 transform hover:-translate-y-2
                   p-8 h-full overflow-hidden
                 `}>
                   {/* 背景装饰 */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent-50 rounded-full -translate-y-16 translate-x-16"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent-50 rounded-full translate-y-12 -translate-x-12"></div>
                   
                   {/* 步骤编号 */}
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 bg-white/20 rounded-custom flex items-center justify-center">
+                    <div className="w-12 h-12 bg-accent-100 rounded-custom flex items-center justify-center">
                       <span className="text-2xl">{step.icon}</span>
                     </div>
-                    <div className="text-4xl font-bold text-white/80">
+                    <div className="text-4xl font-bold text-accent-600">
                       {step.id}
                     </div>
                   </div>
 
                   {/* 卡片内容 */}
                   <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-white mb-2">
+                    <h3 className="text-2xl font-bold text-title mb-2">
                       {step.title}
                     </h3>
-                    <p className="text-white/90 font-medium mb-4">
+                    <p className="text-secondary-600 font-medium mb-4">
                       {step.subtitle}
                     </p>
-                    <p className="text-white/80 text-sm leading-relaxed">
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </div>
@@ -114,9 +114,9 @@ export default function TechBrokerPage() {
                   {/* 操作按钮 */}
                   <div className="mt-8 relative z-10">
                     <button className="
-                      w-full bg-white/20 hover:bg-white/30 
+                      w-full bg-accent-500 hover:bg-accent-600 
                       text-white font-medium py-3 px-6 
-                      rounded-custom border border-white/30
+                      rounded-custom border border-accent-500 hover:border-accent-600
                       transition-all duration-300
                       hover:scale-105 active:scale-95
                     ">
@@ -126,9 +126,9 @@ export default function TechBrokerPage() {
 
                   {/* 连接线（不是最后一个卡片） */}
                   {index < BROKER_STEPS.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-secondary-500/50 z-20 transform -translate-y-1/2">
+                    <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-accent-500/50 z-20 transform -translate-y-1/2">
                       <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1">
-                        <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-accent-500 rounded-full"></div>
                       </div>
                     </div>
                   )}
