@@ -79,11 +79,8 @@ export function Navigation() {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="hidden sm:flex">
-              登录
-            </Button>
-            <Button variant="primary" size="sm" className="hidden sm:flex">
-              注册
+            <Button variant="outline" size="sm" className="hidden sm:flex" asChild>
+              <Link href="/sign-in">登录/注册</Link>
             </Button>
 
             {/* Mobile menu button */}
@@ -124,11 +121,8 @@ export function Navigation() {
               })}
               
               <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200 mt-4">
-                <Button variant="outline" size="sm">
-                  登录
-                </Button>
-                <Button variant="primary" size="sm">
-                  注册
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/sign-in">登录/注册</Link>
                 </Button>
               </div>
             </div>
