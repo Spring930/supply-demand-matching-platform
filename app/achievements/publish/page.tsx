@@ -107,7 +107,8 @@ export default function PublishAchievementPage() {
         throw new Error(errorData.error || '保存失败');
       }
       
-      alert('草稿已保存');
+      const responseData = await response.json();
+      alert(responseData.message || '草稿已保存');
     } catch (err) {
       console.error('Error saving draft:', err);
       setError(err instanceof Error ? err.message : '保存失败');
@@ -162,15 +163,16 @@ export default function PublishAchievementPage() {
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || '提交失败');
+        throw new Error(errorData.error || '发布失败');
       }
       
-      alert('成果已提交，等待审核');
+      const responseData = await response.json();
+      alert(responseData.message || '成果发布成功！');
       router.push('/achievements');
     } catch (err) {
       console.error('Error submitting achievement:', err);
-      setError(err instanceof Error ? err.message : '提交失败');
-      alert('提交失败：' + (err instanceof Error ? err.message : '未知错误'));
+      setError(err instanceof Error ? err.message : '发布失败');
+      alert('发布失败：' + (err instanceof Error ? err.message : '未知错误'));
     } finally {
       setLoading(false);
     }
@@ -597,7 +599,7 @@ export default function PublishAchievementPage() {
               disabled={loading}
               className="px-12 py-3 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? '提交中...' : '提交'}
+              {loading ? '发布中...' : '发布'}
             </button>
           </div>
         </div>

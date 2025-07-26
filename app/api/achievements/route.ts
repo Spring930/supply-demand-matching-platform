@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       tags: body.tags?.filter((tag: string) => tag.trim()) || [],
       attachments: body.attachments?.filter((att: string) => att.trim()) || [],
       isHot: 0,
-      status: 'active',
+      status: body.status || 'active',
     };
 
     // 插入数据库
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: newAchievement,
-      message: '成果发布成功'
+      message: newAchievement.status === 'draft' ? '草稿保存成功' : '成果发布成功'
     }, { status: 201 });
 
   } catch (error) {
