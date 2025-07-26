@@ -1,6 +1,7 @@
 // 服务中心页面
 
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { TALENT_MODULES, MARKET_RESOURCE_MODULES, SERVICE_MODULES } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -29,9 +30,11 @@ export default function ServicesPage() {
                 <h3 className="text-lg font-semibold text-title">{module.name}</h3>
               </div>
               <p className="text-gray-600 mb-4 flex-grow">{module.description}</p>
-              <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors w-full mt-auto">
-                {module.buttonText}
-              </button>
+              <Link href={module.path}>
+                <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors w-full mt-auto">
+                  {module.buttonText}
+                </button>
+              </Link>
             </div>
           ))}
         </div>
@@ -50,9 +53,11 @@ export default function ServicesPage() {
                 <h3 className="text-lg font-semibold text-title">{module.name}</h3>
               </div>
               <p className="text-gray-600 mb-4 flex-grow">{module.description}</p>
-              <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors w-full mt-auto">
-                {module.buttonText}
-              </button>
+              <Link href={module.path}>
+                <button className="bg-accent-500 text-white px-4 py-2 rounded-custom hover:bg-accent-600 transition-colors w-full mt-auto">
+                  {module.buttonText}
+                </button>
+              </Link>
             </div>
           ))}
         </div>
