@@ -118,7 +118,7 @@ export default function ProfilePage() {
           <div className="bg-white rounded-custom shadow-md p-6">
             <h3 className="text-lg font-semibold text-title mb-4">快速操作</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button className="p-4 border-2 border-dashed border-accent-200 rounded-custom hover:border-accent-400 transition-colors">
+              <button className="p-4 border-2 border-dashed border-secondary-200 rounded-custom hover:border-secondary-400 transition-colors">
                 <div className="text-center">
                   <div className="text-2xl mb-2">➕</div>
                   <div className="font-medium text-title">发布需求</div>
@@ -132,7 +132,7 @@ export default function ProfilePage() {
                 </div>
               </button>
               
-              <button className="p-4 border-2 border-dashed border-primary-200 rounded-custom hover:border-primary-400 transition-colors">
+              <button className="p-4 border-2 border-dashed border-secondary-200 rounded-custom hover:border-secondary-400 transition-colors">
                 <div className="text-center">
                   <div className="text-2xl mb-2">🔍</div>
                   <div className="font-medium text-title">浏览匹配</div>
