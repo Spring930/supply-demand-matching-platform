@@ -58,30 +58,28 @@ export function AuthPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 relative"
+      className="min-h-screen flex items-center justify-center px-4 bg-gray-50"
       style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #764ba2 100%)',
-        backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="1"/>%3C/g%3E%3C/g%3E%3C/svg%3E")'
+        backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="1"/>%3C/g%3E%3C/g%3E%3C/svg%3E")'
       }}
     >
-      {/* 城市背景效果 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
       
       {/* 登录/注册卡片 */}
-      <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl p-8 w-full max-w-md shadow-2xl relative z-10">
+      <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl border border-gray-100">
         {/* 标题 */}
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-8">
           注册 / 登录
         </h1>
         
         {/* 选项卡切换：短信验证 / 账号密码 */}
-        <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+        <div className="flex mb-6 bg-accent-50 rounded-lg p-1">
           <button
             onClick={() => setAuthType('sms')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               authType === 'sms'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'text-gray-600 hover:text-blue-600'
+                ? 'bg-accent-500 text-white shadow-sm'
+                : 'text-accent-700 hover:text-accent-600'
             }`}
           >
             短信验证
@@ -90,8 +88,8 @@ export function AuthPage() {
             onClick={() => setAuthType('password')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               authType === 'password'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'text-gray-600 hover:text-blue-600'
+                ? 'bg-accent-500 text-white shadow-sm'
+                : 'text-accent-700 hover:text-accent-600'
             }`}
           >
             账号密码
@@ -112,7 +110,7 @@ export function AuthPage() {
                   placeholder="请输入手机号"
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full bg-accent-50 border border-accent-200 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -128,7 +126,7 @@ export function AuthPage() {
                     placeholder="请输入验证码"
                     value={formData.smsCode}
                     onChange={(e) => handleInputChange('smsCode', e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full bg-accent-50 border border-accent-200 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                     maxLength={6}
                     required
                   />
@@ -138,7 +136,7 @@ export function AuthPage() {
                     type="button"
                     onClick={sendSmsCode}
                     variant="outline"
-                    className="bg-transparent border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg px-4 py-2 h-auto"
+                    className="bg-transparent border-accent-500 text-accent-600 hover:bg-accent-500 hover:text-white rounded-lg px-4 py-2 h-auto"
                   >
                     发送验证码
                   </Button>
@@ -158,7 +156,7 @@ export function AuthPage() {
                   placeholder="请输入手机号"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full bg-accent-50 border border-accent-200 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -173,7 +171,7 @@ export function AuthPage() {
                   placeholder="请输入密码"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full bg-accent-50 border border-accent-200 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                   minLength={6}
                   required
                 />
@@ -190,7 +188,7 @@ export function AuthPage() {
                     placeholder="请输入验证码"
                     value={formData.captcha}
                     onChange={(e) => handleInputChange('captcha', e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full bg-accent-50 border border-accent-200 rounded-lg placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                     maxLength={4}
                     required
                   />
@@ -212,7 +210,7 @@ export function AuthPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg py-3 border-0 shadow-lg transition-colors"
+              className="w-full bg-accent-500 hover:bg-accent-600 text-white font-medium rounded-lg py-3 border-0 shadow-lg transition-colors"
             >
               {loading ? '处理中...' : mode === 'login' ? '登录' : '注册 / 登录'}
             </Button>
@@ -230,7 +228,7 @@ export function AuthPage() {
             <button
               type="button"
               onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-              className="text-blue-600 hover:text-blue-800 underline text-sm transition-colors"
+              className="text-accent-600 hover:text-accent-700 underline text-sm transition-colors"
             >
               {mode === 'login' ? '注册' : '登录'}
             </button>
