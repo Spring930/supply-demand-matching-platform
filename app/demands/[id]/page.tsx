@@ -143,7 +143,7 @@ export default function DemandDetailPage() {
 
           <div className="bg-white rounded-custom shadow-md p-8">
             <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              {demand.fullDescription || demand.description}
+              {demand.fullDescription || (demand as any).description}
             </div>
 
             {/* 需求标签 */}

@@ -34,12 +34,9 @@ function UserMenu() {
 
   if (!user) {
     return (
-      <div className="flex items-center space-x-4">
-        <Button asChild variant="outline" className="rounded-full">
-          <Link href="/sign-in">Sign In</Link>
-        </Button>
-        <Button asChild className="rounded-full">
-          <Link href="/sign-up">Sign Up</Link>
+      <div className="flex items-center">
+        <Button asChild className="rounded-full bg-white text-green-600 hover:bg-green-50 border border-green-600">
+          <Link href="/auth">登录/注册</Link>
         </Button>
       </div>
     );
