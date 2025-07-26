@@ -24,9 +24,9 @@ async function writeEnvFile(envVars: Record<string, string>) {
 async function runMigrations() {
   console.log('Step 3: Running database migrations...');
   try {
-    await execAsync('pnpm run db:generate');
+    await execAsync('npm run db:generate');
     console.log('Database migrations generated.');
-    await execAsync('pnpm run db:migrate');
+    await execAsync('npm run db:migrate');
     console.log('Database migrations applied.');
   } catch (error) {
     console.error('Failed to run migrations:', error);
@@ -37,7 +37,7 @@ async function runMigrations() {
 async function main() {
   console.log('🚀 Setting up Sharing Application Database...');
   
-  const POSTGRES_URL = 'postgresql://postgres:SHjHbEju@127.0.0.1:5432/sharing_app';
+  const POSTGRES_URL = 'postgresql://postgres:XvuHrXJa@127.0.0.1:5432/sharing_app';
   const BASE_URL = 'http://localhost:3000';
   const AUTH_SECRET = generateAuthSecret();
 
@@ -50,7 +50,7 @@ async function main() {
   await runMigrations();
 
   console.log('🎉 Sharing Application setup completed successfully!');
-  console.log('You can now run: pnpm run dev');
+  console.log('You can now run: npm run dev');
 }
 
 main().catch(console.error);
