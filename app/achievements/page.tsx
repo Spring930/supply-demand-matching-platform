@@ -3,9 +3,10 @@
 'use client';
 
 import { Metadata } from 'next';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { MOCK_ACHIEVEMENTS, ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
+import { ACHIEVEMENT_TYPES, REGIONS, INDUSTRIES, SUBJECT_TYPES } from '@/lib/constants';
+import type { Achievement } from '@/lib/db/schema';
 
 // export const metadata: Metadata = {
 //   title: '成果板块 - 供需对接平台',
@@ -21,6 +22,32 @@ export default function AchievementsPage() {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [showPlainDescription, setShowPlainDescription] = useState<Record<string, boolean>>({});
   const [followedAchievements, setFollowedAchievements] = useState<Set<string>>(new Set());
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // 获取成果数据
+  useEffect(() => {
+    fetchAchievements();
+  }, []);
+
+  const fetchAchievements = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/achievements');
+      const result = await response.json();
+      
+      if (result.success) {
+        setAchievements(result.data);
+      } else {
+        setError('获取成果列表失败');
+      }
+    } catch (err) {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 切换描述显示模式
   const toggleDescription = (achievementId: string) => {
@@ -45,23 +72,24 @@ export default function AchievementsPage() {
 
   // 筛选成果
   const filteredAchievements = useMemo(() => {
-    return MOCK_ACHIEVEMENTS.filter(achievement => {
+    return achievements.filter(achievement => {
       return (selectedRegion === 'all' || achievement.region === selectedRegion) &&
              (selectedIndustry === 'all' || achievement.industry === selectedIndustry) &&
              (selectedSubject === 'all' || achievement.subject === selectedSubject) &&
              (selectedType === 'all' || achievement.type === selectedType);
     });
-  }, [selectedRegion, selectedIndustry, selectedSubject, selectedType]);
+  }, [achievements, selectedRegion, selectedIndustry, selectedSubject, selectedType]);
 
   // 获取推荐成果
   const getRecommendedAchievements = () => {
     switch (selectedTab) {
       case 'hot':
         return filteredAchievements
-          .sort((a, b) => b.viewCount - a.viewCount)
-          .slice(0, 10);
+          .filter(a => a.isHot === 1)
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       default:
-        return filteredAchievements.filter(a => a.isHot);
+        return filteredAchievements
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
   };
 
@@ -176,13 +204,37 @@ export default function AchievementsPage() {
 
       {/* 成果列表 */}
       <div className="space-y-6">
-        {displayAchievements.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="w-8 h-8 border-4 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-500">加载成果数据中...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="w-24 h-24 bg-red-100 rounded-custom flex items-center justify-center mx-auto mb-4">
+              <span className="text-4xl">❌</span>
+            </div>
+            <h3 className="text-lg font-medium text-red-600 mb-2">{error}</h3>
+            <button 
+              onClick={fetchAchievements}
+              className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors"
+            >
+              重新加载
+            </button>
+          </div>
+        ) : displayAchievements.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-24 h-24 bg-gray-100 rounded-custom flex items-center justify-center mx-auto mb-4">
               <span className="text-4xl">🔍</span>
             </div>
             <h3 className="text-lg font-medium text-gray-600 mb-2">暂无匹配的成果</h3>
-            <p className="text-gray-500">请尝试调整筛选条件</p>
+            <p className="text-gray-500">请尝试调整筛选条件或</p>
+            <button 
+              onClick={() => router.push('/achievements/publish')}
+              className="text-accent-600 hover:text-accent-700 font-medium"
+            >
+              发布第一个成果
+            </button>
           </div>
         ) : (
           displayAchievements.map((achievement) => (
@@ -196,7 +248,7 @@ export default function AchievementsPage() {
                         {ACHIEVEMENT_TYPES.find(t => t.value === achievement.type)?.icon}
                       </span>
                       <h3 className="text-xl font-semibold text-title">{achievement.title}</h3>
-                      {achievement.isHot && (
+                      {achievement.isHot === 1 && (
                         <span className="ml-2 px-2 py-1 bg-red-100 text-red-600 text-xs rounded-custom">
                           🔥 热门
                         </span>
@@ -204,51 +256,53 @@ export default function AchievementsPage() {
                     </div>
                     <p className="text-accent-600 font-medium mb-2">{achievement.summary}</p>
                     <div className="flex items-center text-sm text-gray-500 space-x-4">
-                      <span>👤 {achievement.author}</span>
-                      <span>📅 {achievement.publishDate}</span>
-                      <span>👁️ {achievement.viewCount}</span>
-                      <span>➕ {achievement.followCount + (followedAchievements.has(achievement.id) ? 1 : 0)}</span>
+                      <span>🏢 {achievement.organization || '未指定'}</span>
+                      <span>📅 {new Date(achievement.createdAt).toLocaleDateString('zh-CN')}</span>
+                      <span>📍 {achievement.region || '全国'}</span>
+                      <span>👤 {achievement.contactPerson}</span>
                     </div>
                   </div>
                   
                   {/* 跟随按钮 */}
                   <button
-                    onClick={() => toggleFollow(achievement.id)}
+                    onClick={() => toggleFollow(achievement.id.toString())}
                     className={`ml-4 w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                      followedAchievements.has(achievement.id)
+                      followedAchievements.has(achievement.id.toString())
                         ? 'bg-accent-500 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-accent-100'
                     }`}
                   >
-                    {followedAchievements.has(achievement.id) ? '✓' : '+'}
+                    {followedAchievements.has(achievement.id.toString()) ? '✓' : '+'}
                   </button>
                 </div>
 
                 {/* 描述内容 */}
                 <div className="mb-4">
                   <span className="text-sm font-medium text-gray-700 block mb-2">成果描述</span>
-                  <p className="text-gray-700 leading-relaxed">
-                    {showPlainDescription[achievement.id] 
-                      ? achievement.plainDescription 
-                      : achievement.description}
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                    {achievement.fullDescription || achievement.description}
                   </p>
                 </div>
 
                 {/* 标签和应用场景 */}
                 <div className="mb-4">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {achievement.tags.map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-accent-100 text-accent-700 text-xs rounded-custom">
-                        #{tag}
+                  {achievement.tags && achievement.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {achievement.tags.map((tag, index) => (
+                        <span key={index} className="px-2 py-1 bg-accent-100 text-accent-700 text-xs rounded-custom">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {achievement.applicationField && (
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">应用领域：</span>
+                      <span className="text-sm text-gray-600 ml-2">
+                        {achievement.applicationField}
                       </span>
-                    ))}
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-700">应用场景：</span>
-                    <span className="text-sm text-gray-600 ml-2">
-                      {achievement.useCases.join(' • ')}
-                    </span>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* 底部操作 */}
@@ -269,17 +323,16 @@ export default function AchievementsPage() {
                   
                   <div className="flex space-x-2">
                     <button 
-                      onClick={() => toggleDescription(achievement.id)}
-                      className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm"
-                    >
-                      通俗解释
-                    </button>
-                    <button 
                       onClick={() => router.push(`/achievements/${achievement.id}`)}
-                      className="px-4 py-2 bg-secondary-500 text-white rounded-custom hover:bg-secondary-600 transition-colors text-sm"
+                      className="px-4 py-2 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors text-sm"
                     >
                       了解详情
                     </button>
+                    {achievement.contact && (
+                      <button className="px-4 py-2 bg-secondary-500 text-white rounded-custom hover:bg-secondary-600 transition-colors text-sm">
+                        联系合作
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

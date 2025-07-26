@@ -35,6 +35,9 @@ export default function PublishAchievementPage() {
     cooperationMode: '',
     tags: [] as string[],
   });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -60,17 +63,117 @@ export default function PublishAchievementPage() {
     }));
   };
 
-  const handleSave = () => {
-    // 保存草稿逻辑
-    console.log('保存草稿:', formData);
-    alert('草稿已保存');
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // 数据验证
+      if (!formData.title.trim() || !formData.researchUnit.trim() || !formData.contactPerson.trim()) {
+        throw new Error('请填写必要信息：标题、研发单位、联系人');
+      }
+      
+      const submitData = {
+        title: formData.title.trim(),
+        summary: formData.achievementDescription.substring(0, 100) + (
+          formData.achievementDescription.length > 100 ? '...' : ''
+        ),
+        fullDescription: `${formData.achievementDescription}\n\n项目信息：\n项目开始日期：${formData.projectStartDate}\n项目结束日期：${formData.projectEndDate}\n团队介绍：${formData.projectTeamIntroduction}\n资金来源：${formData.projectFundingSource}\n\n专利情况：\n是否申请专利：${formData.hasPatentApplication === 'yes' ? '是' : '否'}\n专利详情：${formData.patentDetails}`.trim(),
+        type: formData.type || 'technology',
+        industry: formData.industry || 'ai',
+        region: formData.region || 'beijing',
+        subject: formData.subject || 'university',
+        organization: formData.researchUnit.trim(),
+        contact: formData.contactMethod.trim() || formData.contactPerson.trim(),
+        contactPerson: formData.contactPerson.trim(),
+        maturityLevel: formData.maturityLevel.trim(),
+        applicationField: formData.achievementDescription.trim(),
+        technicalAdvantage: formData.achievementDescription.trim(),
+        cooperationMode: formData.cooperationMode.trim() || '技术转让、合作开发',
+        tags: formData.tags,
+        status: 'draft'
+      };
+      
+      const response = await fetch('/api/achievements', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submitData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || '保存失败');
+      }
+      
+      alert('草稿已保存');
+    } catch (err) {
+      console.error('Error saving draft:', err);
+      setError(err instanceof Error ? err.message : '保存失败');
+      alert('保存失败：' + (err instanceof Error ? err.message : '未知错误'));
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = () => {
-    // 提交逻辑
-    console.log('提交成果:', formData);
-    alert('成果已提交，等待审核');
-    router.push('/achievements');
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // 数据验证
+      if (!formData.title.trim() || !formData.researchUnit.trim() || !formData.contactPerson.trim()) {
+        throw new Error('请填写必要信息：标题、研发单位、联系人');
+      }
+      
+      if (!formData.achievementDescription.trim()) {
+        throw new Error('请填写成果描述');
+      }
+      
+      const submitData = {
+        title: formData.title.trim(),
+        summary: formData.achievementDescription.substring(0, 100) + (
+          formData.achievementDescription.length > 100 ? '...' : ''
+        ),
+        fullDescription: `${formData.achievementDescription}\n\n项目信息：\n项目开始日期：${formData.projectStartDate}\n项目结束日期：${formData.projectEndDate}\n团队介绍：${formData.projectTeamIntroduction}\n资金来源：${formData.projectFundingSource}\n\n专利情况：\n是否申请专利：${formData.hasPatentApplication === 'yes' ? '是' : '否'}\n专利详情：${formData.patentDetails}`.trim(),
+        type: formData.type || 'technology',
+        industry: formData.industry || 'ai',
+        region: formData.region || 'beijing',
+        subject: formData.subject || 'university',
+        organization: formData.researchUnit.trim(),
+        contact: formData.contactMethod.trim() || formData.contactPerson.trim(),
+        contactPerson: formData.contactPerson.trim(),
+        maturityLevel: formData.maturityLevel.trim(),
+        applicationField: formData.achievementDescription.trim(),
+        technicalAdvantage: formData.achievementDescription.trim(),
+        cooperationMode: formData.cooperationMode.trim() || '技术转让、合作开发',
+        tags: formData.tags,
+        status: 'active'
+      };
+      
+      const response = await fetch('/api/achievements', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submitData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || '提交失败');
+      }
+      
+      alert('成果已提交，等待审核');
+      router.push('/achievements');
+    } catch (err) {
+      console.error('Error submitting achievement:', err);
+      setError(err instanceof Error ? err.message : '提交失败');
+      alert('提交失败：' + (err instanceof Error ? err.message : '未知错误'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -473,19 +576,28 @@ export default function PublishAchievementPage() {
             </div>
           </div>
 
+          {/* 错误信息 */}
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-custom">
+              <p className="text-red-600 text-sm">{error}</p>
+            </div>
+          )}
+
           {/* 操作按钮 */}
           <div className="flex justify-center space-x-4">
             <button
               onClick={handleSave}
-              className="px-12 py-3 bg-gray-300 text-gray-700 rounded-custom hover:bg-gray-400 transition-colors font-medium"
+              disabled={loading}
+              className="px-12 py-3 bg-gray-300 text-gray-700 rounded-custom hover:bg-gray-400 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              保存
+              {loading ? '保存中...' : '保存'}
             </button>
             <button
               onClick={handleSubmit}
-              className="px-12 py-3 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors font-medium"
+              disabled={loading}
+              className="px-12 py-3 bg-accent-500 text-white rounded-custom hover:bg-accent-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              提交
+              {loading ? '提交中...' : '提交'}
             </button>
           </div>
         </div>

@@ -6,10 +6,10 @@ import { eq } from 'drizzle-orm';
 // GET - 获取单个需求详情
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const demandId = parseInt(id);
     
     if (isNaN(demandId)) {

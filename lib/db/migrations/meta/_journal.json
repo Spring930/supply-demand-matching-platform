@@ -15,6 +15,13 @@
       "when": 1753559104081,
       "tag": "0001_absurd_hairball",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753561004041,
+      "tag": "0002_soft_butterfly",
+      "breakpoints": true
     }
   ]
 }
